@@ -58,7 +58,7 @@ export default function HeroSection({ onReplaySplash }: HeroSectionProps) {
       <div className="relative z-20 max-w-5xl mx-auto flex flex-col items-center text-center my-auto pt-4 sm:pt-8">
         {/* Marvel Crossover Banner */}
         <div className="flex items-center gap-2 mb-4 animate-in fade-in slide-in-from-top-3 duration-500">
-          <div className="relative w-28 sm:w-32 h-9 rounded overflow-hidden shadow-[0_0_20px_rgba(226,54,54,0.6)]">
+          <div className="relative w-48 sm:w-56 h-16 rounded overflow-hidden shadow-[0_0_20px_rgba(226,54,54,0.6)]">
             <Image
               src="/images/marvel-logo.png"
               alt="MARVEL"
@@ -67,12 +67,11 @@ export default function HeroSection({ onReplaySplash }: HeroSectionProps) {
               className="object-contain"
             />
           </div>
+
           <span className="font-heading text-sm sm:text-base font-black text-red-500 drop-shadow-[0_0_8px_#EF4444]">
             ✕
           </span>
-          <span className="font-mono-code text-[11px] sm:text-xs tracking-[0.25em] text-amber-300 font-semibold uppercase drop-shadow">
-            STUDIOS EXPERIENCE
-          </span>
+
         </div>
 
         {/* Center High-Visibility Graffiti Logo: TECHNIX 8.0 */}
@@ -159,6 +158,6 @@ export default function HeroSection({ onReplaySplash }: HeroSectionProps) {
           [ FEST SCHEDULE ]
         </button>
       </div>
-    </section>
+    </section >
   );
 }
