@@ -1,126 +1,341 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import Image from "next/image";
-import TechnixGraffitiLogo from "./TechnixGraffitiLogo";
+import React, { useState, useEffect, useRef } from "react";
+import MarvelTechnixBranding from "./MarvelTechnixBranding";
 import SpiderManEntrance from "./SpiderManEntrance";
+import ParticleCanvas from "./ParticleCanvas";
 
 interface SplashScreenProps {
   onComplete?: () => void;
-  speedMs?: number;
+  speedMs?: number; // Legacy or fast transition timing
+  holdDurationMs?: number; // Phase B recognition & dynamic color fill duration (default: 3000ms)
+  transitionDurationMs?: number; // Phase C scale-down duration (default: 1100ms)
   showLoadingBar?: boolean;
   subtitle?: string;
+  targetElementId?: string; // FLIP target anchor (default: 'hero-branding-target')
 }
+
+type IntroPhase = "init" | "loading" | "transition" | "settled" | "done";
 
 export default function SplashScreen({
   onComplete,
-  speedMs = 3400, // Cinematic duration so Spider-Man is fully visible
+  speedMs,
+  holdDurationMs = 3000,
+  transitionDurationMs = 1100,
   showLoadingBar = false,
   subtitle,
+  targetElementId = "hero-branding-target",
 }: SplashScreenProps) {
+  const [phase, setPhase] = useState<IntroPhase>("init");
   const [progress, setProgress] = useState(0);
-  const [isFinishing, setIsFinishing] = useState(false);
-  const [isVisible, setIsVisible] = useState(true);
+  const [showSheen, setShowSheen] = useState(false);
+  const [isReducedMotion, setIsReducedMotion] = useState(false);
+
+  // Transform coordinates for FLIP animation
+  const [transformStyle, setTransformStyle] = useState<React.CSSProperties>({
+    transform: "translate3d(0, 0, 0) scale(1)",
+    opacity: 0,
+  });
+
+  const splashContainerRef = useRef<HTMLDivElement>(null);
+  const brandingRef = useRef<HTMLDivElement>(null);
+
+  // Fast route transition mode (when used from PageTransitionContext)
+  const isFastTransition = Boolean(subtitle || (speedMs && speedMs < 1000));
 
   useEffect(() => {
+    // Check prefers-reduced-motion
+    if (typeof window !== "undefined") {
+      const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+      setIsReducedMotion(mediaQuery.matches);
+    }
+  }, []);
+
+  useEffect(() => {
+    // Lock scroll during splash screen intro
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = originalOverflow;
+    };
+  }, []);
+
+  // 1. Dynamic Color Filling Progress Animation (0% to 100%)
+  useEffect(() => {
+    if (typeof window === "undefined" || isFastTransition) return;
+
+    let animFrame: number;
     const startTime = Date.now();
-    let animationFrameId: number;
+    const fillDuration = Math.max(1000, holdDurationMs - 200);
 
     const updateProgress = () => {
       const elapsed = Date.now() - startTime;
-      const rawProgress = Math.min(1.0, elapsed / speedMs);
+      const rawProgress = Math.min(1.0, elapsed / fillDuration);
 
-      // Fast, smooth, punchy fill curve
-      const eased = Math.min(100, Math.floor(Math.pow(rawProgress, 1.2) * 100));
+      // Smooth, natural progress fill curve from bottom to top
+      const eased = Math.min(100, Math.floor(Math.pow(rawProgress, 1.15) * 100));
       setProgress(eased);
 
       if (rawProgress < 1.0) {
-        animationFrameId = requestAnimationFrame(updateProgress);
+        animFrame = requestAnimationFrame(updateProgress);
       } else {
         setProgress(100);
-        setTimeout(() => {
-          setIsFinishing(true);
-          setTimeout(() => {
-            setIsVisible(false);
-            if (onComplete) onComplete();
-          }, 350);
-        }, 150);
       }
     };
 
-    animationFrameId = requestAnimationFrame(updateProgress);
+    animFrame = requestAnimationFrame(updateProgress);
 
     return () => {
-      cancelAnimationFrame(animationFrameId);
+      cancelAnimationFrame(animFrame);
     };
-  }, [speedMs, onComplete]);
+  }, [holdDurationMs, isFastTransition]);
 
-  if (!isVisible) return null;
+  // 2. Main Intro Sequence Coordinator & FLIP Calculation
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    // Fast Page Transition Fallback
+    if (isFastTransition) {
+      setTransformStyle({
+        transform: "translate3d(0, 0, 0) scale(1)",
+        opacity: 1,
+        transition: "opacity 300ms ease-out",
+      });
+      const timer = setTimeout(() => {
+        setTransformStyle((prev) => ({
+          ...prev,
+          opacity: 0,
+          transition: "opacity 250ms ease-in",
+        }));
+        setTimeout(() => {
+          if (onComplete) onComplete();
+        }, 250);
+      }, speedMs || 500);
+
+      return () => clearTimeout(timer);
+    }
+
+    // Function to calculate exact FLIP initial scale & destination delta
+    const calculateLayout = () => {
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const targetEl = document.getElementById(targetElementId);
+
+      if (!targetEl || !brandingRef.current) {
+        return null;
+      }
+
+      const targetRect = targetEl.getBoundingClientRect();
+      const brandingRect = brandingRef.current.getBoundingClientRect();
+
+      if (targetRect.width === 0 || targetRect.height === 0) {
+        return null;
+      }
+
+      // Desired initial oversized branding size: ~85-92% of viewport width
+      const maxAllowedWidth = Math.min(vw * 0.90, 1180);
+      const maxAllowedHeight = vh * 0.65;
+
+      const scaleByWidth = maxAllowedWidth / (brandingRect.width || targetRect.width);
+      const scaleByHeight = maxAllowedHeight / (brandingRect.height || targetRect.height);
+
+      const initialScale = Math.max(1.0, Math.min(scaleByWidth, scaleByHeight));
+
+      // Viewport center
+      const viewportCenterX = vw / 2;
+      const viewportCenterY = vh / 2;
+
+      // Hero target center
+      const targetCenterX = targetRect.left + targetRect.width / 2;
+      const targetCenterY = targetRect.top + targetRect.height / 2;
+
+      const dx = targetCenterX - viewportCenterX;
+      const dy = targetCenterY - viewportCenterY;
+
+      return {
+        initialScale,
+        dx,
+        dy,
+        targetWidth: targetRect.width,
+      };
+    };
+
+    let tSheen: NodeJS.Timeout;
+    let tTransition: NodeJS.Timeout;
+    let tSettle: NodeJS.Timeout;
+    let tDone: NodeJS.Timeout;
+
+    // Step 0: Initial measurement
+    const layout = calculateLayout();
+    const initialScale = layout ? layout.initialScale : 1.35;
+
+    // Phase A: Initial appearance & Loading fill starts
+    setPhase("loading");
+    setTransformStyle({
+      transform: `translate3d(0, 0, 0) scale(${initialScale})`,
+      opacity: 1,
+      transition: isReducedMotion
+        ? "opacity 400ms ease-out"
+        : "transform 450ms cubic-bezier(0.2, 0.8, 0.2, 1), opacity 400ms ease-out",
+    });
+
+    // Trigger theatrical sheen sweep across logo when color fill is near peak
+    tSheen = setTimeout(() => {
+      setShowSheen(true);
+    }, Math.max(1200, holdDurationMs * 0.55));
+
+    // Phase C: Dynamic scale-down transition starts after hold/loading completes
+    tTransition = setTimeout(() => {
+      setPhase("transition");
+
+      if (isReducedMotion) {
+        setTransformStyle((prev) => ({
+          ...prev,
+          opacity: 0,
+          transition: "opacity 400ms ease-in",
+        }));
+        setTimeout(() => {
+          setPhase("done");
+          if (onComplete) onComplete();
+        }, 400);
+        return;
+      }
+
+      // Re-measure exact destination in case of layout settling
+      const currentLayout = calculateLayout();
+      const dx = currentLayout ? currentLayout.dx : 0;
+      const dy = currentLayout ? currentLayout.dy : -120;
+
+      // Animate from oversized scale to EXACT hero dimensions & position
+      setTransformStyle({
+        transform: `translate3d(${dx}px, ${dy}px, 0) scale(1)`,
+        opacity: 1,
+        transition: `transform ${transitionDurationMs}ms cubic-bezier(0.16, 1, 0.3, 1)`,
+      });
+
+      // Phase D: Settle and Hand-off
+      tSettle = setTimeout(() => {
+        setPhase("settled");
+
+        tDone = setTimeout(() => {
+          setPhase("done");
+          if (onComplete) onComplete();
+        }, 60);
+      }, transitionDurationMs);
+    }, holdDurationMs);
+
+    return () => {
+      clearTimeout(tSheen);
+      clearTimeout(tTransition);
+      clearTimeout(tSettle);
+      clearTimeout(tDone);
+    };
+  }, [
+    isFastTransition,
+    holdDurationMs,
+    transitionDurationMs,
+    speedMs,
+    targetElementId,
+    onComplete,
+    isReducedMotion,
+  ]);
+
+  if (phase === "done") return null;
+
+  // Background and Spider-Man fade-out during Phase C scale-down
+  const isBackdropFading = phase === "transition" || phase === "settled";
 
   return (
     <div
-      className={`fixed inset-0 z-[99999] flex flex-col items-center justify-center bg-[#05070E] transition-all duration-300 ease-out select-none px-4 ${isFinishing
-        ? "opacity-0 scale-105 pointer-events-none"
-        : "opacity-100 scale-100"
-        }`}
-      aria-label="Marvel X Technix 8.0 Loading"
+      ref={splashContainerRef}
+      className="fixed inset-0 z-[99999] flex flex-col items-center justify-center select-none overflow-hidden"
+      aria-label="Marvel X Technix 8.0 Cinematic Intro"
       role="status"
     >
-      {/* Cinematic Marvel Red & Arc Ambient Halo */}
-      <div className="absolute w-[650px] h-[650px] rounded-full bg-red-600/20 blur-[150px] pointer-events-none" />
-      <div className="absolute -bottom-20 w-[500px] h-[500px] rounded-full bg-pink-600/20 blur-[130px] pointer-events-none" />
+      {/* 
+        CINEMATIC BACKDROP LAYER:
+        - Deep black & navy tone (#04060C)
+        - Ambient cosmic stardust particles
+        - Marvel Red & Cyan ambient halo
+        - Fades smoothly to opacity 0 during Phase C to reveal HeroSection underneath
+      */}
+      <div
+        className={`absolute inset-0 z-0 bg-[#04060C] transition-opacity duration-900 ease-out pointer-events-none ${
+          isBackdropFading ? "opacity-0" : "opacity-100"
+        }`}
+      >
+        {/* Ambient Red & Violet Convergence Nebula Halo */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[750px] h-[750px] rounded-full bg-red-600/20 blur-[160px] pointer-events-none" />
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[550px] rounded-full bg-pink-600/15 blur-[140px] pointer-events-none" />
+        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 w-[600px] h-[300px] rounded-full bg-purple-600/15 blur-[150px] pointer-events-none" />
 
-      {/* Spider-Man Hanging & Waving Entrance Animation (Above background, behind title if overlap) */}
-      <SpiderManEntrance />
+        {/* Ambient Cosmic Stardust Embers */}
+        <ParticleCanvas />
 
-      {/* Main Crossover Ensemble: BIG MARVEL  ✕  TECHNIX 8.0 */}
-      <div className="relative z-10 flex flex-col items-center justify-center max-w-3xl w-full">
-        {/* 1. BIG Official Marvel Red Banner Logo with Character Lineup */}
-
-        {/* Marvel logo — fill the wide banner */}
-        <div className="relative w-full max-w-[1100px] h-28 sm:h-40 md:h-52 lg:h-60 mb-2 sm:mb-4 shadow-[0_0_50px_rgba(226,54,54,0.35)] rounded-md overflow-hidden animate-in fade-in zoom-in-95 duration-500">
-          <Image
-            src="/images/marvel-logo.png"
-            alt="MARVEL"
-            fill
-            priority
-            sizes="(max-width: 640px) 100vw, 1100px"
-            className="object-contain"
-          />
-        </div>
-
-
-        {/* 2. Bold Glowing Crossover Glyphs "✕" */}
-        <div className="flex items-center gap-4 my-2 sm:my-3">
-          <div className="h-[2px] w-16 sm:w-28 md:w-36 bg-gradient-to-r from-transparent via-red-500/80 to-transparent" />
-          <span className="font-heading text-2xl sm:text-3xl md:text-4xl font-black text-red-500 drop-shadow-[0_0_16px_#EF4444]">
-            ✕
+        {/* Cinematic Multiverse Tagline (Visible during loading, fades out in Phase C) */}
+        <div className="absolute bottom-8 left-0 right-0 text-center pointer-events-none">
+          <span className="font-mono-code text-[11px] sm:text-xs tracking-[0.38em] text-slate-400 uppercase font-semibold drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
+            THE MULTIVERSE CONVERGENCE • TECHNIX 8.0
           </span>
-          <div className="h-[2px] w-16 sm:w-28 md:w-36 bg-gradient-to-r from-transparent via-red-500/80 to-transparent" />
         </div>
+      </div>
 
-        {/* 3. High-Visibility, Bold TECHNIX 8.0 Logo with Dynamic Color Filling */}
-        <div className="w-full flex justify-center py-2">
-          <TechnixGraffitiLogo
-            progress={progress}
+      {/* 
+        SPIDER-MAN RIG LAYER (z-25):
+        - Positioned with high visibility in the top-right ceiling
+        - Descends from above (-110vh), bounces, and sways naturally during loading
+        - Fades out smoothly when the scale-down transition begins
+      */}
+      {!isFastTransition && (
+        <div
+          className={`transition-opacity duration-900 ease-out pointer-events-none z-25 ${
+            isBackdropFading ? "opacity-0" : "opacity-100"
+          }`}
+        >
+          <SpiderManEntrance className="pointer-events-none absolute top-0 right-4 sm:right-8 md:right-14 lg:right-20 z-25 select-none" />
+        </div>
+      )}
+
+      {/* 
+        FLIP BRANDING LAYER:
+        - Contains the unified MARVEL × TECHNIX 8.0 Branding
+        - While loading, fills with dynamic neon hot pink color from bottom to top (progress: 0 -> 100%)
+        - Holds with a theatrical light sheen sweep
+        - Scales and translates down with cubic-bezier(0.16, 1, 0.3, 1) into #hero-branding-target
+      */}
+      <div className="relative z-20 flex flex-col items-center justify-center w-full px-4 pointer-events-none">
+        <div
+          ref={brandingRef}
+          style={{
+            ...transformStyle,
+            transformOrigin: "center center",
+            willChange: "transform, opacity",
+          }}
+          className="w-full max-w-[480px] sm:max-w-[620px] md:max-w-[720px] lg:max-w-[780px] flex justify-center"
+        >
+          <MarvelTechnixBranding
+            glow={true}
             mode="fill-progress"
-            className="w-full max-w-[420px] sm:max-w-[560px] md:max-w-[680px] h-auto drop-shadow-[0_15px_40px_rgba(255,30,130,0.4)]"
+            progress={progress}
+            showSheen={showSheen}
+            priority={true}
           />
         </div>
 
-        {/* Optional Subtitle (e.g. When navigating between events) */}
+        {/* Optional Subtitle (used during route navigation transitions) */}
         {subtitle && (
           <p className="font-mono-code text-xs sm:text-sm tracking-[0.25em] text-pink-400 uppercase mt-4 animate-pulse">
             {subtitle}
           </p>
         )}
 
-        {/* Loading bar only if explicitly requested */}
+        {/* Loading Bar (only if explicitly requested) */}
         {showLoadingBar && (
           <div className="mt-6 flex flex-col items-center gap-2">
             <div className="w-56 h-[3px] bg-slate-800 rounded-full overflow-hidden">
               <div
-                className="h-full bg-gradient-to-r from-red-600 via-pink-500 to-rose-400"
+                className="h-full bg-gradient-to-r from-red-600 via-pink-500 to-rose-400 transition-all duration-100"
                 style={{ width: `${progress}%` }}
               />
             </div>
@@ -129,13 +344,6 @@ export default function SplashScreen({
             </span>
           </div>
         )}
-      </div>
-
-      {/* Cinematic Multiverse Tagline */}
-      <div className="absolute bottom-6 text-center">
-        <span className="font-mono-code text-[11px] sm:text-xs tracking-[0.35em] text-slate-400 uppercase font-semibold">
-          MARVEL CINEMATIC EXPERIENCE • TECHNIX 8.0
-        </span>
       </div>
     </div>
   );

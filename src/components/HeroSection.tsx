@@ -2,16 +2,20 @@
 
 import React from "react";
 import Image from "next/image";
-import TechnixGraffitiLogo from "./TechnixGraffitiLogo";
+import MarvelTechnixBranding from "./MarvelTechnixBranding";
 import ParticleCanvas from "./ParticleCanvas";
 import { usePageTransition } from "./PageTransitionContext";
 import { Compass, Shield, Play } from "lucide-react";
 
 interface HeroSectionProps {
   onReplaySplash?: () => void;
+  isSplashActive?: boolean;
 }
 
-export default function HeroSection({ onReplaySplash }: HeroSectionProps) {
+export default function HeroSection({
+  onReplaySplash,
+  isSplashActive = false,
+}: HeroSectionProps) {
   const { navigateTo } = usePageTransition();
 
   const handleOpenEvents = (e: React.MouseEvent) => {
@@ -55,31 +59,16 @@ export default function HeroSection({ onReplaySplash }: HeroSectionProps) {
       <ParticleCanvas />
 
       {/* Hero Content Container (Framed in the Center Space Rift) */}
-      <div className="relative z-20 max-w-5xl mx-auto flex flex-col items-center text-center my-auto pt-4 sm:pt-8">
-        {/* Marvel Crossover Banner */}
-        <div className="flex items-center gap-2 mb-4 animate-in fade-in slide-in-from-top-3 duration-500">
-          <div className="relative w-48 sm:w-56 h-16 rounded overflow-hidden shadow-[0_0_20px_rgba(226,54,54,0.6)]">
-            <Image
-              src="/images/marvel-logo.png"
-              alt="MARVEL"
-              fill
-              unoptimized
-              className="object-contain"
-            />
-          </div>
-
-          <span className="font-heading text-sm sm:text-base font-black text-red-500 drop-shadow-[0_0_8px_#EF4444]">
-            ✕
-          </span>
-
-        </div>
-
-        {/* Center High-Visibility Graffiti Logo: TECHNIX 8.0 */}
-        <div className="w-full flex justify-center mb-5 sm:mb-7 animate-in fade-in zoom-in-95 duration-700">
-          <TechnixGraffitiLogo
-            mode="hero"
-            className="w-full max-w-[480px] sm:max-w-[620px] md:max-w-[720px] lg:max-w-[780px] h-auto drop-shadow-[0_20px_50px_rgba(0,0,0,0.95)]"
-          />
+      <div className="relative z-20 max-w-5xl mx-auto flex flex-col items-center text-center my-auto pt-4 sm:pt-8 w-full">
+        {/* FLIP Destination Anchor: MARVEL × TECHNIX 8.0 Branding */}
+        <div
+          id="hero-branding-target"
+          className={`w-full flex justify-center transition-opacity duration-300 ${isSplashActive
+            ? "opacity-0 pointer-events-none select-none"
+            : "opacity-100"
+            }`}
+        >
+          <MarvelTechnixBranding priority />
         </div>
 
         {/* Primary Subtitle: "The Convergence Is Here." */}
@@ -99,41 +88,8 @@ export default function HeroSection({ onReplaySplash }: HeroSectionProps) {
             className="group relative inline-flex items-center gap-2.5 px-6 sm:px-8 py-2 sm:py-2.5 rounded-full border border-pink-500/80 bg-black/60 hover:bg-pink-950/50 text-pink-300 hover:text-white font-mono-code text-xs sm:text-sm font-semibold tracking-[0.25em] uppercase transition-all duration-300 shadow-[0_0_30px_rgba(255,30,130,0.45)] hover:shadow-[0_0_40px_rgba(255,30,130,0.7)] hover:scale-105 active:scale-95 cursor-pointer backdrop-blur-md"
           >
             <span className="w-2 h-2 rounded-full bg-pink-500 animate-ping" />
-            <span>TECHNIX IS LIVE</span>
+            <span>TECHNIX IS NOT LIVE</span>
           </button>
-        </div>
-
-        {/* Action Buttons & Replay Splash Control */}
-        <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 w-full sm:w-auto">
-          {/* Explore Events */}
-          <button
-            onClick={handleOpenEvents}
-            className="inline-flex items-center justify-center gap-2 px-6 sm:px-7 py-3 rounded-xl font-heading text-xs sm:text-sm font-bold tracking-wider text-slate-900 bg-gradient-to-r from-amber-400 via-amber-300 to-yellow-400 hover:from-amber-300 hover:to-yellow-300 transition-all duration-300 shadow-xl shadow-amber-500/25 hover:scale-105 active:scale-95 group cursor-pointer"
-          >
-            <Compass className="w-4 h-4 text-slate-900 group-hover:rotate-45 transition-transform" />
-            EXPLORE EVENTS
-          </button>
-
-          {/* Register / Passes */}
-          <button
-            onClick={handleOpenPasses}
-            className="inline-flex items-center justify-center gap-2 px-6 sm:px-7 py-3 rounded-xl font-heading text-xs sm:text-sm font-bold tracking-wider text-white bg-gradient-to-r from-red-600 via-pink-600 to-purple-700 hover:from-red-500 hover:to-pink-500 border border-red-500/40 transition-all duration-300 shadow-xl shadow-red-950/60 hover:scale-105 active:scale-95 group cursor-pointer"
-          >
-            <Shield className="w-4 h-4 text-amber-200 group-hover:scale-110 transition-transform" />
-            GET PASSES / REGISTER
-          </button>
-
-          {/* Replay Starting Flash Screen */}
-          {onReplaySplash && (
-            <button
-              onClick={onReplaySplash}
-              title="Replay the starting flash screen with dynamic color filling"
-              className="inline-flex items-center justify-center gap-1.5 px-4 py-3 rounded-xl font-mono-code text-xs text-slate-300 hover:text-white bg-black/60 hover:bg-slate-900 border border-slate-700/60 transition-all hover:scale-105 active:scale-95 cursor-pointer backdrop-blur-md"
-            >
-              <Play className="w-3.5 h-3.5 text-pink-400 fill-pink-400" />
-              <span>REPLAY INTRO</span>
-            </button>
-          )}
         </div>
       </div>
 

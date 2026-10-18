@@ -3,10 +3,16 @@
 import React from "react";
 import Image from "next/image";
 
-export default function SpiderManEntrance() {
+interface SpiderManEntranceProps {
+  className?: string;
+}
+
+export default function SpiderManEntrance({
+  className = "pointer-events-none absolute top-0 right-4 sm:right-8 md:right-14 lg:right-20 z-20 select-none",
+}: SpiderManEntranceProps) {
   return (
     <div
-      className="pointer-events-none absolute top-0 right-4 sm:right-12 md:right-16 lg:right-24 z-[8] select-none"
+      className={className}
       aria-hidden="true"
     >
       {/* 
