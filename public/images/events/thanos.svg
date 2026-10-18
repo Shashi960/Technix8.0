@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <defs>
+    <radialGradient id="thanosBg" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#341A05" />
+      <stop offset="60%" stop-color="#140824" />
+      <stop offset="100%" stop-color="#06020D" />
+    </radialGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#thanosBg)" />
+  
+  <!-- Cosmic Infinity Energy Rings -->
+  <g transform="translate(400, 230)">
+    <circle r="185" fill="none" stroke="#EAB308" stroke-width="1.5" stroke-dasharray="12 16" opacity="0.5" />
+    <circle r="140" fill="none" stroke="#A855F7" stroke-width="2" stroke-dasharray="6 6" opacity="0.6" filter="drop-shadow(0 0 10px #A855F7)" />
+    
+    <!-- Golden Gauntlet Fist Silhouette -->
+    <path d="M -50 80 L -60 -15 C -60 -60 -25 -75 0 -75 C 25 -75 60 -60 60 -15 L 50 80 Z" fill="#854D0E" stroke="#EAB308" stroke-width="3" filter="drop-shadow(0 0 14px #EAB308)" />
+    
+    <!-- The Six Glowing Infinity Stones -->
+    <!-- Center Mind Stone (Yellow) -->
+    <ellipse cx="0" cy="5" rx="14" ry="18" fill="#FDE047" filter="drop-shadow(0 0 10px #FDE047)" />
+    <!-- Power Stone (Purple - Index) -->
+    <ellipse cx="-40" cy="-35" rx="9" ry="12" fill="#A855F7" filter="drop-shadow(0 0 8px #A855F7)" />
+    <!-- Space Stone (Blue - Middle) -->
+    <ellipse cx="-15" cy="-52" rx="9" ry="12" fill="#38BDF8" filter="drop-shadow(0 0 8px #38BDF8)" />
+    <!-- Reality Stone (Red - Ring) -->
+    <ellipse cx="15" cy="-52" rx="9" ry="12" fill="#EF4444" filter="drop-shadow(0 0 8px #EF4444)" />
+    <!-- Soul Stone (Orange - Pinky) -->
+    <ellipse cx="40" cy="-35" rx="9" ry="12" fill="#F97316" filter="drop-shadow(0 0 8px #F97316)" />
+    <!-- Time Stone (Green - Thumb) -->
+    <ellipse cx="-55" cy="15" rx="9" ry="12" fill="#22C55E" filter="drop-shadow(0 0 8px #22C55E)" />
+    
+    <!-- Holographic CLASSIFIED / TBD Box -->
+    <rect x="-140" y="-15" width="280" height="50" rx="6" fill="#020617" stroke="#EAB308" stroke-width="2" opacity="0.94" filter="drop-shadow(0 0 12px #EAB308)" />
+    <text x="0" y="16" fill="#FDE047" font-family="sans-serif" font-weight="900" font-size="15" letter-spacing="4" text-anchor="middle">EVENT DETAILS COMING SOON</text>
+  </g>
+  
+  <text x="40" y="460" fill="#EAB308" font-family="sans-serif" font-weight="900" font-size="14" letter-spacing="4">INFINITY GAUNTLET // THE FINAL SNAP</text>
+  <text x="760" y="460" fill="#A855F7" font-family="monospace" font-size="12" text-anchor="end">STONES: 6 OF 6 CHARGED</text>
+</svg>

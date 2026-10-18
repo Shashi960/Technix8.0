@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <defs>
+    <radialGradient id="mysticBg" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#2E1B02" />
+      <stop offset="50%" stop-color="#190F02" />
+      <stop offset="100%" stop-color="#090501" />
+    </radialGradient>
+    <radialGradient id="portalGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FEF08A" />
+      <stop offset="40%" stop-color="#F59E0B" />
+      <stop offset="80%" stop-color="#D97706" />
+      <stop offset="100%" stop-color="transparent" />
+    </radialGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#mysticBg)" />
+  
+  <!-- Glowing Golden Mystic Portal / Mandala -->
+  <g transform="translate(400, 250)">
+    <circle r="185" fill="none" stroke="#F59E0B" stroke-width="2" stroke-dasharray="14 10" opacity="0.8" filter="drop-shadow(0 0 10px #F59E0B)" />
+    <circle r="160" fill="none" stroke="#FDE047" stroke-width="1.5" stroke-dasharray="6 4" opacity="0.9" />
+    <circle r="130" fill="none" stroke="#EA580C" stroke-width="2" stroke-dasharray="25 35" opacity="0.75" />
+    <circle r="95" fill="none" stroke="#FDE047" stroke-width="1.5" opacity="0.6" />
+    
+    <!-- Concentric Mystic Squares -->
+    <rect x="-95" y="-95" width="190" height="190" fill="none" stroke="#F59E0B" stroke-width="1.5" opacity="0.7" />
+    <rect x="-95" y="-95" width="190" height="190" fill="none" stroke="#FDE047" stroke-width="1.5" transform="rotate(45)" opacity="0.7" />
+    <rect x="-70" y="-70" width="140" height="140" fill="none" stroke="#D97706" stroke-width="1" transform="rotate(22.5)" opacity="0.6" />
+    <rect x="-70" y="-70" width="140" height="140" fill="none" stroke="#D97706" stroke-width="1" transform="rotate(67.5)" opacity="0.6" />
+    
+    <!-- Center Eye of Agamotto Emblem -->
+    <path d="M -50 0 C -30 -30 30 -30 50 0 C 30 30 -30 30 -50 0 Z" fill="#1C1917" stroke="#F59E0B" stroke-width="2.5" />
+    <circle cx="0" cy="0" r="16" fill="#10B981" filter="drop-shadow(0 0 8px #10B981)" />
+    <circle cx="0" cy="0" r="8" fill="#A7F3D0" />
+    
+    <!-- Sparkling Mystic Portal Runes -->
+    <circle cx="-135" cy="-75" r="4" fill="#FEF08A" filter="drop-shadow(0 0 4px #F59E0B)" />
+    <circle cx="135" cy="-75" r="4" fill="#FEF08A" filter="drop-shadow(0 0 4px #F59E0B)" />
+    <circle cx="-135" cy="75" r="4" fill="#FEF08A" filter="drop-shadow(0 0 4px #F59E0B)" />
+    <circle cx="135" cy="75" r="4" fill="#FEF08A" filter="drop-shadow(0 0 4px #F59E0B)" />
+  </g>
+  
+  <text x="40" y="460" fill="#F59E0B" font-family="sans-serif" font-weight="900" font-size="14" letter-spacing="4">SANCTUM SANCTORUM // MULTIVERSE OF MINDS</text>
+  <text x="760" y="460" fill="#FEF08A" font-family="monospace" font-size="12" text-anchor="end">REALMS: 14,000,605</text>
+</svg>

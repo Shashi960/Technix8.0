@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 220" width="160" height="220">
+  <defs>
+    <radialGradient id="suitRed" cx="45%" cy="40%" r="65%">
+      <stop offset="0%" stop-color="#E61E2D" />
+      <stop offset="50%" stop-color="#B81422" />
+      <stop offset="100%" stop-color="#6E0B14" />
+    </radialGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.6" />
+    </filter>
+  </defs>
+
+  <!-- Forearm & Open Waving Hand -->
+  <g filter="url(#shadow)">
+    <!-- Forearm sleeve extending up from elbow (bottom-right: 125, 215) to wrist (top-center: 75, 110) -->
+    <path d="M 125,215 L 140,200 L 92,105 L 60,115 Z" fill="url(#suitRed)" stroke="#150204" stroke-width="1.5" />
+
+    <!-- Webbing on forearm -->
+    <path d="M 125,215 Q 100,160 76,110" stroke="#110203" stroke-width="1.2" fill="none" />
+    <path d="M 140,200 Q 115,145 92,105" stroke="#110203" stroke-width="1.2" fill="none" />
+    <path d="M 108,185 Q 90,175 75,180" stroke="#110203" stroke-width="1.2" fill="none" />
+    <path d="M 120,150 Q 102,140 85,145" stroke="#110203" stroke-width="1.2" fill="none" />
+
+    <!-- Palm and wrist base -->
+    <path d="M 60,115 C 50,95 55,75 70,68 C 85,62 100,80 92,105 Z" fill="url(#suitRed)" stroke="#150204" stroke-width="1.5" />
+
+    <!-- Open Fingers (waving palm) -->
+    <!-- Thumb pointing out -->
+    <path d="M 58,102 C 40,105 30,95 32,85 C 34,76 46,80 56,88 Z" fill="url(#suitRed)" stroke="#150204" stroke-width="1.5" />
+    <!-- Index finger -->
+    <path d="M 62,75 C 55,45 60,25 72,25 C 80,25 78,48 74,70 Z" fill="url(#suitRed)" stroke="#150204" stroke-width="1.5" />
+    <!-- Middle finger -->
+    <path d="M 74,70 C 72,40 76,15 88,15 C 96,15 92,42 86,68 Z" fill="url(#suitRed)" stroke="#150204" stroke-width="1.5" />
+    <!-- Ring finger -->
+    <path d="M 86,68 C 88,42 94,25 104,28 C 112,30 104,50 96,75 Z" fill="url(#suitRed)" stroke="#150204" stroke-width="1.5" />
+    <!-- Pinky finger -->
+    <path d="M 96,78 C 104,58 115,45 122,50 C 128,55 116,70 104,90 Z" fill="url(#suitRed)" stroke="#150204" stroke-width="1.5" />
+
+    <!-- Webbing lines on palm and fingers -->
+    <path d="M 72,25 Q 75,55 75,70 Q 75,90 75,110" stroke="#110203" stroke-width="1.2" fill="none" />
+    <path d="M 88,15 Q 86,45 84,68 Q 80,85 75,110" stroke="#110203" stroke-width="1.2" fill="none" />
+    <path d="M 104,28 Q 98,55 94,75 Q 88,95 75,110" stroke="#110203" stroke-width="1.2" fill="none" />
+    <!-- Transverse web curves across palm -->
+    <path d="M 45,92 Q 65,75 85,82 Q 105,88 115,70" stroke="#110203" stroke-width="1.2" fill="none" />
+    <path d="M 55,80 Q 75,62 95,68" stroke="#110203" stroke-width="1.2" fill="none" />
+  </g>
+</svg>

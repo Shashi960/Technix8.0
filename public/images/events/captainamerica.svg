@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <defs>
+    <radialGradient id="capBg" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#0F2445" />
+      <stop offset="60%" stop-color="#071224" />
+      <stop offset="100%" stop-color="#02060E" />
+    </radialGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#capBg)" />
+  
+  <!-- Vibranium Shield Concentric Rings -->
+  <g transform="translate(400, 230)">
+    <!-- Outer Red Ring -->
+    <circle r="160" fill="#B91C1C" stroke="#EF4444" stroke-width="3" filter="drop-shadow(0 0 15px rgba(239,68,68,0.4))" />
+    <!-- Silver Ring -->
+    <circle r="128" fill="#E2E8F0" stroke="#CBD5E1" stroke-width="2" />
+    <!-- Inner Red Ring -->
+    <circle r="96" fill="#B91C1C" stroke="#EF4444" stroke-width="2" />
+    <!-- Blue Center Circle -->
+    <circle r="64" fill="#1D4ED8" stroke="#3B82F6" stroke-width="2" />
+    <!-- Center Five-Point Star -->
+    <polygon points="0,-48 14,-15 48,-15 20,6 30,38 0,18 -30,38 -20,6 -48,-15 -14,-15" fill="#F8FAFC" filter="drop-shadow(0 0 8px #F8FAFC)" />
+    
+    <!-- Holographic CLASSIFIED / TBD Stamp Box -->
+    <rect x="-140" y="-30" width="280" height="60" rx="6" fill="#020617" stroke="#38BDF8" stroke-width="2" opacity="0.92" filter="drop-shadow(0 0 12px #38BDF8)" />
+    <text x="0" y="8" fill="#F8FAFC" font-family="sans-serif" font-weight="900" font-size="16" letter-spacing="4" text-anchor="middle">EVENT DETAILS COMING SOON</text>
+  </g>
+  
+  <text x="40" y="460" fill="#38BDF8" font-family="sans-serif" font-weight="900" font-size="14" letter-spacing="4">PROJECT AVENGERS // CLASSIFIED DOSSIER</text>
+  <text x="760" y="460" fill="#EF4444" font-family="monospace" font-size="12" text-anchor="end">STATUS: PENDING REVEAL</text>
+</svg>

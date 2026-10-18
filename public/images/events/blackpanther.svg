@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <defs>
+    <radialGradient id="wakandaBg" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#240D3A" />
+      <stop offset="60%" stop-color="#0E0517" />
+      <stop offset="100%" stop-color="#040107" />
+    </radialGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#wakandaBg)" />
+  
+  <!-- Vibranium Kinetic Circuit Lines -->
+  <g transform="translate(400, 230)">
+    <circle r="170" fill="none" stroke="#A855F7" stroke-width="1.5" stroke-dasharray="12 18" opacity="0.4" />
+    <circle r="125" fill="none" stroke="#C084FC" stroke-width="2" stroke-dasharray="8 6" opacity="0.6" filter="drop-shadow(0 0 8px #A855F7)" />
+    
+    <!-- Wakandan Geometric Map Runes -->
+    <path d="M -160 0 L 160 0 M 0 -160 L 0 160" stroke="#7E22CE" stroke-width="1" opacity="0.3" />
+    <polygon points="0,-125 108,-62 108,62 0,125 -108,62 -108,-62" fill="none" stroke="#A855F7" stroke-width="1" opacity="0.5" />
+    
+    <!-- Black Panther Stylized Mask -->
+    <path d="M 0 -85 C 35 -85 65 -60 70 -15 C 75 35 45 80 0 95 C -45 80 -75 35 -70 -15 C -65 -60 -35 -85 0 -85 Z" fill="#0F081D" stroke="#A855F7" stroke-width="3" filter="drop-shadow(0 0 10px #7E22CE)" />
+    <!-- Ears -->
+    <polygon points="-55,-60 -75,-105 -35,-80" fill="#0F081D" stroke="#A855F7" stroke-width="2" />
+    <polygon points="55,-60 75,-105 35,-80" fill="#0F081D" stroke="#A855F7" stroke-width="2" />
+    <!-- Glowing Purple Eyes -->
+    <polygon points="-42,-22 -15,-18 -22,-8 -38,-10" fill="#E9D5FF" filter="drop-shadow(0 0 6px #C084FC)" />
+    <polygon points="42,-22 15,-18 22,-8 38,-10" fill="#E9D5FF" filter="drop-shadow(0 0 6px #C084FC)" />
+    <!-- Vibranium Claw Necklace Silhouette -->
+    <g transform="translate(0, 95)">
+      <polygon points="-45,-15 -35,15 -30,0" fill="#E9D5FF" />
+      <polygon points="-25,-5 -18,22 -12,5" fill="#E9D5FF" />
+      <polygon points="0,5 0,28 6,10" fill="#E9D5FF" />
+      <polygon points="25,-5 18,22 12,5" fill="#E9D5FF" />
+      <polygon points="45,-15 35,15 30,0" fill="#E9D5FF" />
+    </g>
+  </g>
+  
+  <text x="40" y="460" fill="#C084FC" font-family="sans-serif" font-weight="900" font-size="14" letter-spacing="4">WAKANDA CITADEL // THE RELIC HUNT</text>
+  <text x="760" y="460" fill="#E9D5FF" font-family="monospace" font-size="12" text-anchor="end">KINETIC CHARGE: 100%</text>
+</svg>

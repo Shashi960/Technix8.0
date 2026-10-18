@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <defs>
+    <radialGradient id="bgGrad" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#2D0B0E" />
+      <stop offset="60%" stop-color="#140507" />
+      <stop offset="100%" stop-color="#070203" />
+    </radialGradient>
+    <radialGradient id="arcReactorGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="25%" stop-color="#7DD3FC" />
+      <stop offset="60%" stop-color="#0284C7" />
+      <stop offset="100%" stop-color="transparent" />
+    </radialGradient>
+    <linearGradient id="starkGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FDE047" />
+      <stop offset="50%" stop-color="#EAB308" />
+      <stop offset="100%" stop-color="#854D0E" />
+    </linearGradient>
+    <linearGradient id="starkRed" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#EF4444" />
+      <stop offset="50%" stop-color="#B91C1C" />
+      <stop offset="100%" stop-color="#7F1D1D" />
+    </linearGradient>
+    <pattern id="hexGrid" width="40" height="40" patternUnits="userSpaceOnUse" opacity="0.12">
+      <path d="M 20 0 L 40 11.5 L 40 34.5 L 20 46 L 0 34.5 L 0 11.5 Z" fill="none" stroke="#E23636" stroke-width="1" />
+    </pattern>
+  </defs>
+  <rect width="800" height="500" fill="url(#bgGrad)" />
+  <rect width="800" height="500" fill="url(#hexGrid)" />
+  
+  <!-- Holographic Stark HUD Circles -->
+  <g transform="translate(400, 240)">
+    <circle r="180" fill="none" stroke="#E23636" stroke-width="1.5" stroke-dasharray="10 15" opacity="0.35" />
+    <circle r="150" fill="none" stroke="#EAB308" stroke-width="1" stroke-dasharray="80 120" opacity="0.4" />
+    <circle r="120" fill="none" stroke="#38BDF8" stroke-width="1.5" stroke-dasharray="4 8" opacity="0.5" />
+    
+    <!-- Code Stream Holograms -->
+    <text x="-320" y="-120" fill="#38BDF8" font-family="monospace" font-size="11" opacity="0.6">&gt; JARVIS.SYS: INITIALIZING PROTOCOL</text>
+    <text x="-320" y="-100" fill="#E23636" font-family="monospace" font-size="11" opacity="0.6">&gt; RUNNING CODE_DIAGNOSTICS_8.0</text>
+    <text x="-320" y="-80" fill="#FDE047" font-family="monospace" font-size="11" opacity="0.6">&gt; STATUS: 0 ERRORS // 100% READY</text>
+    <text x="180" y="140" fill="#38BDF8" font-family="monospace" font-size="11" opacity="0.6">&gt; CORE: 3.2 GIGA-FLOPS</text>
+    <text x="180" y="160" fill="#E23636" font-family="monospace" font-size="11" opacity="0.6">&gt; FIREWALL: STARK SECURE</text>
+
+    <!-- Iron Man Helmet Graphic -->
+    <path d="M-60,-110 C-60,-140 -35,-160 0,-160 C35,-160 60,-140 60,-110 C65,-50 70,10 50,50 C35,80 15,95 0,95 C-15,95 -35,80 -50,50 C-70,10 -65,-50 -60,-110 Z" fill="url(#starkRed)" stroke="#B91C1C" stroke-width="2" />
+    <!-- Helmet Faceplate -->
+    <path d="M-40,-95 C-25,-105 0,-105 40,-95 C45,-60 40,-10 32,35 C20,55 0,65 0,65 C0,65 -20,55 -32,35 C-40,-10 -45,-60 -40,-95 Z" fill="url(#starkGold)" stroke="#CA8A04" stroke-width="1.5" />
+    <!-- Brow & Jaw Contours -->
+    <path d="M-35,-55 L-12,-48 L12,-48 L35,-55 L28,-30 L-28,-30 Z" fill="#78350F" opacity="0.5" />
+    <path d="M-25,20 L-10,35 L10,35 L25,20 L20,45 L-20,45 Z" fill="#78350F" opacity="0.4" />
+    <!-- Glowing Slit Eyes -->
+    <polygon points="-30,-45 -12,-42 -14,-36 -28,-38" fill="#E0F2FE" filter="drop-shadow(0 0 6px #38BDF8)" />
+    <polygon points="30,-45 12,-42 14,-36 28,-38" fill="#E0F2FE" filter="drop-shadow(0 0 6px #38BDF8)" />
+    
+    <!-- Chest Arc Reactor -->
+    <g transform="translate(0, 150)">
+      <circle r="40" fill="url(#arcReactorGlow)" opacity="0.8" />
+      <circle r="28" fill="#0C4A6E" stroke="#38BDF8" stroke-width="2" />
+      <circle r="18" fill="#E0F2FE" filter="drop-shadow(0 0 8px #38BDF8)" />
+      <!-- Reactor Segments -->
+      <line x1="-28" y1="0" x2="28" y2="0" stroke="#0284C7" stroke-width="2" />
+      <line x1="0" y1="-28" x2="0" y2="28" stroke="#0284C7" stroke-width="2" />
+      <line x1="-20" y1="-20" x2="20" y2="20" stroke="#0284C7" stroke-width="2" />
+      <line x1="20" y1="-20" x2="-20" y2="20" stroke="#0284C7" stroke-width="2" />
+    </g>
+  </g>
+  
+  <!-- Cyber Corner Badges -->
+  <path d="M 30 50 L 30 30 L 50 30" fill="none" stroke="#E23636" stroke-width="2" />
+  <path d="M 770 50 L 770 30 L 750 30" fill="none" stroke="#E23636" stroke-width="2" />
+  <path d="M 30 450 L 30 470 L 50 470" fill="none" stroke="#E23636" stroke-width="2" />
+  <path d="M 770 450 L 770 470 L 750 470" fill="none" stroke="#E23636" stroke-width="2" />
+  
+  <!-- Event Watermark Text -->
+  <text x="40" y="460" fill="#E23636" font-family="sans-serif" font-weight="900" font-size="14" letter-spacing="4">STARK INDUSTRIES // CODE PROTOCOL</text>
+  <text x="760" y="460" fill="#EAB308" font-family="monospace" font-size="12" text-anchor="end">LEVEL: ARCHITECT</text>
+</svg>

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 160" width="400" height="160">
+  <rect width="400" height="160" rx="12" fill="#0B101D" stroke="#FB7185" stroke-width="1.5" />
+  <g transform="translate(40, 45)">
+    <rect x="0" y="0" width="36" height="36" rx="8" fill="#FB7185" opacity="0.2" stroke="#FB7185" stroke-width="1.5" />
+    <circle cx="18" cy="18" r="8" fill="#FB7185" />
+    <text x="50" y="26" fill="#F8FAFC" font-family="sans-serif" font-weight="bold" font-size="20">CAMPUS PULSE</text>
+    <text x="50" y="48" fill="#94A3B8" font-family="monospace" font-size="11" letter-spacing="1">YOUTH BROADCAST NETWORK</text>
+  </g>
+  <path d="M 370 20 L 380 20 L 380 30" fill="none" stroke="#FB7185" stroke-width="1.5" />
+</svg>
