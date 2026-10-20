@@ -27,6 +27,14 @@ export function PageTransitionProvider({ children }: { children: React.ReactNode
     // If already on the same page, do nothing
     if (url === pathname) return;
 
+    // Direct navigation to /events so the dedicated EventsLoading golden spark vortex takes center stage
+    if (url === "/events") {
+      startTransition(() => {
+        router.push(url);
+      });
+      return;
+    }
+
     setTransitionLabel(label);
     setIsTransitioning(true);
 

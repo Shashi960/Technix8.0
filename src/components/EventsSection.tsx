@@ -1,10 +1,17 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect, useRef } from "react";
 import Image from "next/image";
 import { eventsData } from "@/data/eventsData";
-import { FestEvent, EventCategory } from "@/types";
-import { Search, Filter, Users, ArrowUpRight, Zap, Eye, AlertCircle } from "lucide-react";
+import { FestEvent } from "@/types";
+import {
+  Search,
+  Users,
+  Zap,
+  Eye,
+  AlertCircle,
+  Sparkles,
+} from "lucide-react";
 
 interface EventsSectionProps {
   onOpenEventDetails: (event: FestEvent) => void;
@@ -17,10 +24,42 @@ export default function EventsSection({
   onSelectForRegistration,
   initialCategory = "All",
 }: EventsSectionProps) {
-  const [selectedCategory, setSelectedCategory] = useState<string>(initialCategory);
+  const [selectedCategory, setSelectedCategory] =
+    useState<string>(initialCategory);
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const [revealedCards, setRevealedCards] = useState<Record<string, boolean>>({});
+  const cardRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
   const categories = ["All", "Technical", "Non-Technical", "Gaming", "Cultural"];
+
+  // One-time deliberate entrance animations via IntersectionObserver
+  useEffect(() => {
+    if (typeof window === "undefined" || !("IntersectionObserver" in window))
+      return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const eventId = entry.target.getAttribute("data-event-id");
+            if (eventId) {
+              setRevealedCards((prev) => ({ ...prev, [eventId]: true }));
+              observer.unobserve(entry.target);
+            }
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+
+    Object.values(cardRefs.current).forEach((el) => {
+      if (el) observer.observe(el);
+    });
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [selectedCategory, searchQuery]);
 
   const filteredEvents = useMemo(() => {
     return eventsData.filter((event) => {
@@ -45,7 +84,7 @@ export default function EventsSection({
         <div className="text-center max-w-3xl mx-auto mb-12">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-slate-900 border border-red-500/30 text-red-400 font-mono-code text-xs tracking-widest uppercase mb-4">
             <Zap className="w-3.5 h-3.5 text-amber-400" />
-            11 HEROIC ARENAS ASSEMBLED
+            9 HEROIC ARENAS ASSEMBLED
           </div>
 
           <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl font-black uppercase tracking-tight text-metallic-silver mb-4">
@@ -65,7 +104,7 @@ export default function EventsSection({
               <button
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
-                className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-tech font-bold tracking-wide transition-all ${
+                className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-tech font-bold tracking-wide transition-all cursor-pointer ${
                   selectedCategory === cat
                     ? "bg-red-600 text-white shadow-lg shadow-red-950 glow-red border border-red-400/60"
                     : "bg-slate-900 text-slate-400 hover:text-white hover:bg-slate-800 border border-slate-800"
@@ -102,99 +141,249 @@ export default function EventsSection({
                 setSelectedCategory("All");
                 setSearchQuery("");
               }}
-              className="mt-4 px-4 py-2 rounded-xl bg-slate-800 text-slate-200 text-xs font-heading font-bold hover:bg-slate-700"
+              className="mt-4 px-4 py-2 rounded-xl bg-slate-800 text-slate-200 text-xs font-heading font-bold hover:bg-slate-700 cursor-pointer"
             >
               RESET FILTERS
             </button>
           </div>
         )}
 
-        {/* Responsive Events Grid (All 11 Events) */}
+        {/* Responsive Events Grid (Exact 9 Events) */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-          {filteredEvents.map((event) => (
-            <div
-              key={event.id}
-              className="group relative flex flex-col rounded-3xl bg-slate-950/90 border border-slate-800/90 hover:border-slate-600 transition-all duration-300 overflow-hidden shadow-2xl hover:-translate-y-1.5"
-              style={{
-                boxShadow: `0 10px 30px -10px ${event.heroTheme.glowColor}`,
-              }}
-            >
-              {/* Card Image Banner */}
-              <div className="relative w-full h-52 bg-slate-950 overflow-hidden">
-                <Image
-                  src={event.image}
-                  alt={event.title}
-                  fill
-                  className="object-cover object-center group-hover:scale-105 transition-transform duration-500"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent" />
+          {filteredEvents.map((event) => {
+            const isRevealed = Boolean(revealedCards[event.id]);
 
-                {/* Hero Theme Badge */}
-                <div className="absolute top-3 left-3 flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-950/80 backdrop-blur-md border border-slate-700 text-xs font-mono-code font-bold text-white">
-                  <span
-                    className="w-2 h-2 rounded-full"
-                    style={{ backgroundColor: event.heroTheme.accentColor }}
+            return (
+              <div
+                key={event.id}
+                ref={(el) => {
+                  cardRefs.current[event.id] = el;
+                }}
+                data-event-id={event.id}
+                className={`group relative flex flex-col rounded-3xl bg-slate-950/90 border border-slate-800/90 hover:border-slate-600 transition-all duration-300 overflow-hidden shadow-2xl hover:-translate-y-1.5 ${
+                  event.id === "infinity-iq-challenge" && isRevealed
+                    ? "strange-portal-pulse"
+                    : ""
+                } ${
+                  event.id === "avengers-battleworld" && isRevealed
+                    ? "battleworld-lightning-flash"
+                    : ""
+                } ${
+                  event.id === "project-what-if" && isRevealed
+                    ? "whatif-reality-shift"
+                    : ""
+                }`}
+                style={{
+                  boxShadow: `0 10px 30px -10px ${event.heroTheme.glowColor}`,
+                }}
+              >
+                {/* Card Image Banner */}
+                <div className="relative w-full h-56 bg-slate-950 overflow-hidden">
+                  <Image
+                    src={event.image}
+                    alt={event.title}
+                    fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    className={`object-cover object-center group-hover:scale-105 transition-transform duration-500 ${
+                      event.id === "marvel-in-motion" && isRevealed
+                        ? "spidey-web-reveal"
+                        : ""
+                    }`}
                   />
-                  <span>{event.marvelCharacter.split("—")[0].trim()}</span>
-                </div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/35 to-transparent" />
 
-                {/* Category Pill */}
-                <div className="absolute top-3 right-3 px-2.5 py-0.5 rounded-full bg-black/60 border border-slate-800 text-[10px] font-mono-code text-slate-300">
-                  {event.category}
-                </div>
-
-                {/* TBD Indicator Badge */}
-                {event.isTBD && (
-                  <div className="absolute bottom-3 left-3 px-2.5 py-1 rounded-md bg-amber-950/90 border border-amber-500/50 text-[11px] font-mono-code font-bold text-amber-300">
-                    EVENT DETAILS COMING SOON
+                  {/* Hero Theme Badge */}
+                  <div className="absolute top-3 left-3 flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-950/80 backdrop-blur-md border border-slate-700 text-xs font-mono-code font-bold text-white z-10">
+                    <span
+                      className="w-2 h-2 rounded-full"
+                      style={{ backgroundColor: event.heroTheme.accentColor }}
+                    />
+                    <span>{event.marvelCharacter.split("—")[0].trim()}</span>
                   </div>
-                )}
-              </div>
 
-              {/* Card Content */}
-              <div className="p-6 flex flex-col flex-1">
-                <h3 className="font-heading text-lg sm:text-xl font-black text-white group-hover:text-amber-300 transition-colors tracking-wide mb-2 min-h-[3.5rem] line-clamp-2">
-                  {event.title}
-                </h3>
-
-                <p className="text-slate-400 text-xs sm:text-sm leading-relaxed mb-6 line-clamp-3 font-sans flex-1">
-                  {event.shortDescription}
-                </p>
-
-                {/* Event Metadata Footer */}
-                <div className="pt-4 border-t border-slate-900 flex items-center justify-between text-xs font-mono-code text-slate-400 mb-5">
-                  <div className="flex items-center gap-1.5">
-                    <Users className="w-3.5 h-3.5 text-slate-400" />
-                    <span>{event.teamSize.label}</span>
+                  {/* Category Pill */}
+                  <div className="absolute top-3 right-3 px-2.5 py-0.5 rounded-full bg-black/60 border border-slate-800 text-[10px] font-mono-code text-slate-300 z-10">
+                    {event.category}
                   </div>
-                  <span className="text-[11px] text-amber-400 font-bold">
-                    {event.isTBD ? "TBD" : "ACTIVE"}
-                  </span>
+
+                  {/* TBD Indicator Badge */}
+                  {event.isTBD && (
+                    <div className="absolute bottom-3 left-3 px-2.5 py-1 rounded-md bg-purple-950/90 border border-purple-500/50 text-[11px] font-mono-code font-bold text-purple-300 z-10">
+                      CLASSIFIED SURPRISE PROTOCOL
+                    </div>
+                  )}
+
+                  {/* One-time Deliberate Accent Overlays */}
+                  {event.id === "marvel-in-motion" && isRevealed && (
+                    <div className="absolute inset-0 pointer-events-none spidey-lens-flash" />
+                  )}
+                  {event.id === "avengers-battleworld" && isRevealed && (
+                    <div className="absolute inset-0 pointer-events-none battleworld-arc-flash" />
+                  )}
                 </div>
 
-                {/* Card CTA Buttons */}
-                <div className="grid grid-cols-2 gap-3">
-                  <button
-                    onClick={() => onOpenEventDetails(event)}
-                    className="flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 hover:border-slate-700 text-slate-200 text-xs font-heading font-bold transition-colors"
-                  >
-                    <Eye className="w-3.5 h-3.5 text-cyan-400" />
-                    VIEW EVENT
-                  </button>
+                {/* Card Content */}
+                <div className="p-6 flex flex-col flex-1">
+                  <h3 className="font-heading text-lg sm:text-xl font-black text-white group-hover:text-amber-300 transition-colors tracking-wide mb-2 min-h-[3.5rem] line-clamp-2">
+                    {event.title}
+                  </h3>
 
-                  <button
-                    onClick={() => onSelectForRegistration(event.id)}
-                    className="flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white text-xs font-heading font-extrabold tracking-wider transition-transform hover:scale-102 active:scale-98 glow-red shadow-lg"
-                  >
-                    <Zap className="w-3.5 h-3.5 text-amber-300" />
-                    REGISTER
-                  </button>
+                  <p className="text-slate-400 text-xs sm:text-sm leading-relaxed mb-6 line-clamp-3 font-sans flex-1">
+                    {event.shortDescription}
+                  </p>
+
+                  {/* Event Metadata Footer */}
+                  <div className="pt-4 border-t border-slate-900 flex items-center justify-between text-xs font-mono-code text-slate-400 mb-5">
+                    <div className="flex items-center gap-1.5">
+                      <Users className="w-3.5 h-3.5 text-slate-400" />
+                      <span>{event.teamSize.label}</span>
+                    </div>
+                    <span
+                      className={`text-[11px] font-bold ${
+                        event.isTBD ? "text-purple-400" : "text-amber-400"
+                      }`}
+                    >
+                      {event.isTBD ? "CLASSIFIED" : "ACTIVE"}
+                    </span>
+                  </div>
+
+                  {/* Card CTA Buttons */}
+                  <div className="grid grid-cols-2 gap-3">
+                    <button
+                      onClick={() => onOpenEventDetails(event)}
+                      className="flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 hover:border-slate-700 text-slate-200 text-xs font-heading font-bold transition-colors cursor-pointer"
+                    >
+                      <Eye className="w-3.5 h-3.5" />
+                      DOSSIER
+                    </button>
+
+                    <button
+                      onClick={() => onSelectForRegistration(event.id)}
+                      className="flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white text-xs font-heading font-bold transition-all shadow-md shadow-red-950/50 cursor-pointer"
+                    >
+                      <Sparkles className="w-3.5 h-3.5" />
+                      REGISTER
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
+
+      <style jsx>{`
+        /* 1. Spider-Man One-Time Web Drop Reveal */
+        @keyframes spideyWebDrop {
+          0% {
+            transform: translateY(-16px) scale(1.04);
+            opacity: 0.85;
+          }
+          100% {
+            transform: translateY(0) scale(1);
+            opacity: 1;
+          }
+        }
+        .spidey-web-reveal {
+          animation: spideyWebDrop 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        /* Spider-Man Quick Lens Shutter Flash */
+        @keyframes spideyLensFlash {
+          0% {
+            opacity: 0.45;
+            background: rgba(255, 255, 255, 0.35);
+          }
+          100% {
+            opacity: 0;
+            background: transparent;
+          }
+        }
+        .spidey-lens-flash {
+          animation: spideyLensFlash 0.5s ease-out forwards;
+        }
+
+        /* 2. Doctor Strange One-Time Portal Border Sweep */
+        @keyframes strangePortalSweep {
+          0% {
+            border-color: rgba(245, 158, 11, 0.9);
+            box-shadow: 0 0 35px rgba(168, 85, 247, 0.7);
+          }
+          50% {
+            border-color: rgba(168, 85, 247, 0.9);
+            box-shadow: 0 0 45px rgba(245, 158, 11, 0.8);
+          }
+          100% {
+            border-color: rgba(51, 65, 85, 0.9);
+            box-shadow: 0 10px 30px -10px rgba(168, 85, 247, 0.45);
+          }
+        }
+        .strange-portal-pulse {
+          animation: strangePortalSweep 1.1s ease-out forwards;
+        }
+
+        /* 3. Avengers Battleworld One-Time Lightning Strike */
+        @keyframes battleworldBorderFlash {
+          0% {
+            border-color: #38bdf8;
+            box-shadow: 0 0 30px rgba(56, 189, 248, 0.8);
+          }
+          30% {
+            border-color: #f59e0b;
+            box-shadow: 0 0 40px rgba(245, 158, 11, 0.9);
+          }
+          100% {
+            border-color: rgba(51, 65, 85, 0.9);
+            box-shadow: 0 10px 30px -10px rgba(245, 158, 11, 0.45);
+          }
+        }
+        .battleworld-lightning-flash {
+          animation: battleworldBorderFlash 0.75s ease-out forwards;
+        }
+
+        @keyframes battleworldArc {
+          0% {
+            opacity: 0.35;
+            background: rgba(56, 189, 248, 0.25);
+          }
+          100% {
+            opacity: 0;
+            background: transparent;
+          }
+        }
+        .battleworld-arc-flash {
+          animation: battleworldArc 0.4s ease-out forwards;
+        }
+
+        /* 4. Project What If Reality Shift */
+        @keyframes realityShift {
+          0% {
+            opacity: 0.8;
+            filter: hue-rotate(60deg) contrast(1.15);
+          }
+          100% {
+            opacity: 1;
+            filter: hue-rotate(0deg) contrast(1);
+          }
+        }
+        .whatif-reality-shift {
+          animation: realityShift 0.85s ease-out forwards;
+        }
+
+        /* Accessibility: Disable motion when user prefers reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+          .spidey-web-reveal,
+          .spidey-lens-flash,
+          .strange-portal-pulse,
+          .battleworld-lightning-flash,
+          .battleworld-arc-flash,
+          .whatif-reality-shift {
+            animation: none !important;
+            opacity: 1 !important;
+            filter: none !important;
+          }
+        }
+      `}</style>
     </section>
   );
 }

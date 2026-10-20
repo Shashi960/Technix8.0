@@ -25,8 +25,8 @@ export const festConfig = {
   highlights: [
     {
       label: "Galactic Events",
-      value: "11",
-      numericValue: 11,
+      value: "9",
+      numericValue: 9,
       suffix: "",
       subtext: "Technical, Gaming & Cultural",
       iconName: "Zap",

@@ -70,7 +70,7 @@ export default function Footer({ onOpenEventDetails }: FooterProps) {
           {/* Events Quick List */}
           <div className="lg:col-span-2">
             <h4 className="font-heading text-xs font-bold text-white uppercase tracking-wider mb-4">
-              11 FEATURED EVENTS
+              9 FEATURED ARENAS
             </h4>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2 text-xs font-mono-code">
               {eventsData.map((ev) => (

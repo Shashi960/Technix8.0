@@ -47,7 +47,7 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL("https://technix8.vercel.app"),
   title: `${festConfig.name} — ${festConfig.tagline}`,
-  description: `${festConfig.name} is the premier intercollegiate technical & cultural fest inspired by the Marvel Cinematic Universe. 11 Galactic events, tech hackathons, esports, and stage showdowns. Assemble. Innovate. Conquer.`,
+  description: `${festConfig.name} is the premier intercollegiate technical & cultural fest inspired by the Marvel Cinematic Universe. 9 Galactic events, tech hackathons, esports, and stage showdowns. Assemble. Innovate. Conquer.`,
   keywords: [
     "Technix 8.0",
     "Technix Fest",
