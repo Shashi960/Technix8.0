@@ -18,17 +18,21 @@ export default function Navbar({ onReplaySplash }: NavbarProps) {
   const { navigateTo } = usePageTransition();
 
   useEffect(() => {
+    let lastScrolled = false;
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      const scrolled = window.scrollY > 20;
+      if (scrolled !== lastScrolled) {
+        lastScrolled = scrolled;
+        setIsScrolled(scrolled);
+      }
     };
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const navLinks = [
     { name: "HOME", href: "/" },
-    { name: "CULTURAL", href: "/cultural" },
-    { name: "SPORTS", href: "/sports" },
+    { name: "EVENTS", href: "/events" },
     { name: "SCHEDULE", href: "/schedule" },
     { name: "PASSES", href: "/passes" },
     { name: "SPONSORS", href: "/sponsors" },
@@ -42,10 +46,10 @@ export default function Navbar({ onReplaySplash }: NavbarProps) {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 py-3 sm:py-3.5 transition-[background-color,border-color,box-shadow,backdrop-filter] duration-200 ${
         isScrolled
-          ? "bg-[#070A10]/90 backdrop-blur-md border-b border-slate-800/80 shadow-2xl py-2.5 sm:py-3"
-          : "bg-transparent py-4 sm:py-5"
+          ? "bg-[#070A10]/95 backdrop-blur-md border-b border-slate-800/80 shadow-2xl"
+          : "bg-transparent border-b border-transparent"
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

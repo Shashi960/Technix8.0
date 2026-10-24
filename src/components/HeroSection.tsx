@@ -5,7 +5,6 @@ import Image from "next/image";
 import MarvelTechnixBranding from "./MarvelTechnixBranding";
 import ParticleCanvas from "./ParticleCanvas";
 import { usePageTransition } from "./PageTransitionContext";
-import { Compass, Shield, Play } from "lucide-react";
 
 interface HeroSectionProps {
   onReplaySplash?: () => void;
@@ -13,7 +12,6 @@ interface HeroSectionProps {
 }
 
 export default function HeroSection({
-  onReplaySplash,
   isSplashActive = false,
 }: HeroSectionProps) {
   const { navigateTo } = usePageTransition();
@@ -23,15 +21,10 @@ export default function HeroSection({
     navigateTo("/events", "OPENING EVENTS ARENA...");
   };
 
-  const handleOpenPasses = (e: React.MouseEvent) => {
-    e.preventDefault();
-    navigateTo("/passes", "OPENING PASSES & REGISTRATION...");
-  };
-
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex flex-col items-center justify-between pt-24 pb-10 sm:pt-28 sm:pb-14 px-4 overflow-hidden bg-[#04060C]"
+      className="relative min-h-screen flex flex-col items-center justify-center pt-20 pb-12 px-4 overflow-hidden bg-[#04060C]"
     >
       {/* Marvel Convergence Dimensional Arena Background */}
       <div className="absolute inset-0 z-0">
@@ -41,7 +34,7 @@ export default function HeroSection({
           fill
           priority
           unoptimized
-          className="object-cover object-center select-none scale-100 transition-transform duration-1000"
+          className="object-cover object-center select-none scale-100"
         />
 
         {/* Cinematic Vignettes: Transparent Center to Highlight Cosmic Rift */}
@@ -79,117 +72,20 @@ export default function HeroSection({
 
         {/* Fest Dates */}
         <p className="font-mono-code text-xs sm:text-sm tracking-[0.3em] uppercase text-amber-200/90 font-medium mb-5 sm:mb-7 drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)]">
-          OCTOBER 12 – 18, 2026
+          NOVEMBER 18 – 19, 2026
         </p>
 
-        {/* Center Neon Pill Badge */}
-        <div className="inline-flex items-center justify-center mb-7 sm:mb-9">
+        {/* Center Status Pill Badge */}
+        <div className="inline-flex items-center justify-center">
           <button
             onClick={handleOpenEvents}
-            className="group relative inline-flex items-center gap-2.5 px-6 sm:px-8 py-2 sm:py-2.5 rounded-full border border-pink-500/80 bg-black/60 hover:bg-pink-950/50 text-pink-300 hover:text-white font-mono-code text-xs sm:text-sm font-semibold tracking-[0.25em] uppercase transition-all duration-300 shadow-[0_0_30px_rgba(255,30,130,0.45)] hover:shadow-[0_0_40px_rgba(255,30,130,0.7)] hover:scale-105 active:scale-95 cursor-pointer backdrop-blur-md"
+            className="group relative inline-flex items-center gap-2.5 px-6 sm:px-8 py-2 sm:py-2.5 rounded-full border border-amber-500/50 bg-black/70 hover:bg-amber-950/40 text-amber-300/90 hover:text-white font-mono-code text-xs sm:text-sm font-semibold tracking-[0.25em] uppercase transition-all duration-300 shadow-[0_0_25px_rgba(245,158,11,0.25)] hover:shadow-[0_0_35px_rgba(245,158,11,0.45)] hover:scale-105 active:scale-95 cursor-pointer backdrop-blur-md"
           >
-            <span className="w-2 h-2 rounded-full bg-pink-500 animate-ping" />
-            <span>TECHNIX IS LIVE</span>
+            <span className="w-2 h-2 rounded-full bg-amber-400" />
+            <span>TECHNIX NOT LIVE NOW</span>
           </button>
         </div>
-
-        {/* Action Buttons & Replay Splash Control */}
-        <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 w-full sm:w-auto">
-          {/* Explore Events */}
-          <button
-            onClick={handleOpenEvents}
-            className="inline-flex items-center justify-center gap-2 px-6 sm:px-7 py-3 rounded-xl font-heading text-xs sm:text-sm font-bold tracking-wider text-slate-900 bg-gradient-to-r from-amber-400 via-amber-300 to-yellow-400 hover:from-amber-300 hover:to-yellow-300 transition-all duration-300 shadow-xl shadow-amber-500/25 hover:scale-105 active:scale-95 group cursor-pointer"
-          >
-            <Compass className="w-4 h-4 text-slate-900 group-hover:rotate-45 transition-transform" />
-            EXPLORE EVENTS
-          </button>
-
-          {/* Register / Passes */}
-          <button
-            onClick={handleOpenPasses}
-            className="inline-flex items-center justify-center gap-2 px-6 sm:px-7 py-3 rounded-xl font-heading text-xs sm:text-sm font-bold tracking-wider text-white bg-gradient-to-r from-red-600 via-pink-600 to-purple-700 hover:from-red-500 hover:to-pink-500 border border-red-500/40 transition-all duration-300 shadow-xl shadow-red-950/60 hover:scale-105 active:scale-95 group cursor-pointer"
-          >
-            <Shield className="w-4 h-4 text-amber-200 group-hover:scale-110 transition-transform" />
-            GET PASSES / REGISTER
-          </button>
-
-          {/* Replay Starting Flash Screen */}
-          {onReplaySplash && (
-            <button
-              onClick={onReplaySplash}
-              title="Replay the starting flash screen with dynamic color filling"
-              className="inline-flex items-center justify-center gap-1.5 px-4 py-3 rounded-xl font-mono-code text-xs text-slate-300 hover:text-white bg-black/60 hover:bg-slate-900 border border-slate-700/60 transition-all hover:scale-105 active:scale-95 cursor-pointer backdrop-blur-md"
-            >
-              <Play className="w-3.5 h-3.5 text-pink-400 fill-pink-400" />
-              <span>REPLAY INTRO</span>
-            </button>
-          )}
-        </div>
       </div>
-
-      {/* Cinematic Iron Man Portrait Cutout (Enters once from slightly below with repulsor glow on desktop) */}
-      <div
-        className={`hidden xl:block absolute right-4 2xl:right-14 bottom-8 z-10 pointer-events-none select-none transition-opacity duration-700 ${
-          isSplashActive ? "opacity-0" : "opacity-95"
-        }`}
-        aria-hidden="true"
-      >
-        <div className="relative w-60 2xl:w-72 h-auto iron-man-hero-entrance">
-          <Image
-            src="/images/technix/hero/iron-man-hero.webp"
-            alt="Iron Man — Technix 8.0 Hero"
-            width={420}
-            height={595}
-            priority
-            className="w-full h-auto drop-shadow-[0_12px_40px_rgba(226,54,54,0.5)] drop-shadow-[0_0_25px_rgba(245,158,11,0.3)] filter"
-          />
-        </div>
-      </div>
-
-      {/* Sleek Bottom Bar with Fast Direct Links */}
-      <div className="relative z-20 flex flex-wrap items-center justify-center gap-6 sm:gap-10 text-[11px] font-mono-code text-slate-300 uppercase tracking-widest mt-4">
-        <button
-          onClick={() => navigateTo("/cultural", "OPENING CULTURAL ARENA...")}
-          className="hover:text-amber-400 transition-colors cursor-pointer drop-shadow"
-        >
-          [ CULTURAL SHOWDOWNS ]
-        </button>
-        <button
-          onClick={() => navigateTo("/sports", "OPENING SPORTS ARENA...")}
-          className="hover:text-amber-400 transition-colors cursor-pointer drop-shadow"
-        >
-          [ SPORTS & ESPORTS ]
-        </button>
-        <button
-          onClick={() => navigateTo("/schedule", "OPENING SCHEDULE...")}
-          className="hover:text-amber-400 transition-colors cursor-pointer drop-shadow"
-        >
-          [ FEST SCHEDULE ]
-        </button>
-      </div>
-
-      <style jsx>{`
-        @keyframes ironManHeroEntrance {
-          0% {
-            transform: translateY(35px);
-            opacity: 0;
-          }
-          100% {
-            transform: translateY(0);
-            opacity: 1;
-          }
-        }
-        .iron-man-hero-entrance {
-          animation: ironManHeroEntrance 0.95s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-        @media (prefers-reduced-motion: reduce) {
-          .iron-man-hero-entrance {
-            animation: none !important;
-            transform: translateY(0) !important;
-            opacity: 1 !important;
-          }
-        }
-      `}</style>
     </section>
   );
 }

@@ -12,7 +12,7 @@ export default function SchedulePage() {
   const scheduleDays = [
     {
       day: "Day 1 — Convergence Awakening",
-      date: "October 16, 2026",
+      date: "November 18, 2026",
       events: [
         { time: "09:00 AM", title: "Grand Inauguration & Quantum Opening", venue: "Grand Auditorium" },
         { time: "10:30 AM", title: "Code of Iron (Speed Hackathon)", venue: "Turing Lab, 3rd Floor" },
@@ -24,7 +24,7 @@ export default function SchedulePage() {
     },
     {
       day: "Day 2 — The Cosmic Climax",
-      date: "October 17, 2026",
+      date: "November 19, 2026",
       events: [
         { time: "09:30 AM", title: "Mystic Bug Hunt (Debugging Trial)", venue: "Systems Lab 1" },
         { time: "10:30 AM", title: "Infinity Pitch (Startup & Innovation Summit)", venue: "Seminar Hall A" },

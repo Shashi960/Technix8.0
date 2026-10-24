@@ -27,12 +27,10 @@ export default function EventsSection({
   const [selectedCategory, setSelectedCategory] =
     useState<string>(initialCategory);
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const [revealedCards, setRevealedCards] = useState<Record<string, boolean>>({});
-  const cardRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
   const categories = ["All", "Technical", "Non-Technical", "Gaming", "Cultural"];
 
-  // One-time deliberate entrance animations via IntersectionObserver
+  // One-time deliberate entrance animations via direct DOM class toggle (0 React re-renders during scroll)
   useEffect(() => {
     if (typeof window === "undefined" || !("IntersectionObserver" in window))
       return;
@@ -41,35 +39,34 @@ export default function EventsSection({
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            const eventId = entry.target.getAttribute("data-event-id");
-            if (eventId) {
-              setRevealedCards((prev) => ({ ...prev, [eventId]: true }));
-              observer.unobserve(entry.target);
-            }
+            entry.target.classList.add("is-revealed");
+            observer.unobserve(entry.target);
           }
         });
       },
-      { threshold: 0.15 }
+      { threshold: 0.12 }
     );
 
-    Object.values(cardRefs.current).forEach((el) => {
-      if (el) observer.observe(el);
-    });
+    const cards = document.querySelectorAll("[data-event-id]");
+    cards.forEach((el) => observer.observe(el));
 
     return () => {
       observer.disconnect();
     };
-  }, [selectedCategory, searchQuery]);
+  }, [selectedCategory]);
 
   const filteredEvents = useMemo(() => {
+    const q = searchQuery.trim().toLowerCase();
     return eventsData.filter((event) => {
       const matchesCategory =
         selectedCategory === "All" || event.category === selectedCategory;
-      const matchesSearch =
-        event.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        event.marvelCharacter.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        event.shortDescription.toLowerCase().includes(searchQuery.toLowerCase());
-      return matchesCategory && matchesSearch;
+      if (!matchesCategory) return false;
+      if (!q) return true;
+      return (
+        event.title.toLowerCase().includes(q) ||
+        event.marvelCharacter.toLowerCase().includes(q) ||
+        event.shortDescription.toLowerCase().includes(q)
+      );
     });
   }, [selectedCategory, searchQuery]);
 
@@ -150,31 +147,23 @@ export default function EventsSection({
 
         {/* Responsive Events Grid (Exact 9 Events) */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-          {filteredEvents.map((event) => {
-            const isRevealed = Boolean(revealedCards[event.id]);
+          {filteredEvents.map((event, index) => {
+            const specificAnimClass =
+              event.id === "infinity-iq-challenge"
+                ? "card-strange"
+                : event.id === "avengers-battleworld"
+                ? "card-battleworld"
+                : event.id === "project-what-if"
+                ? "card-whatif"
+                : "";
 
             return (
               <div
                 key={event.id}
-                ref={(el) => {
-                  cardRefs.current[event.id] = el;
-                }}
                 data-event-id={event.id}
-                className={`group relative flex flex-col rounded-3xl bg-slate-950/90 border border-slate-800/90 hover:border-slate-600 transition-all duration-300 overflow-hidden shadow-2xl hover:-translate-y-1.5 ${
-                  event.id === "infinity-iq-challenge" && isRevealed
-                    ? "strange-portal-pulse"
-                    : ""
-                } ${
-                  event.id === "avengers-battleworld" && isRevealed
-                    ? "battleworld-lightning-flash"
-                    : ""
-                } ${
-                  event.id === "project-what-if" && isRevealed
-                    ? "whatif-reality-shift"
-                    : ""
-                }`}
+                className={`group relative flex flex-col rounded-3xl bg-slate-950/90 border border-slate-800/90 hover:border-slate-600 transition-colors duration-200 overflow-hidden shadow-xl [content-visibility:auto] [contain-intrinsic-size:0_480px] hover:-translate-y-1 ${specificAnimClass}`}
                 style={{
-                  boxShadow: `0 10px 30px -10px ${event.heroTheme.glowColor}`,
+                  boxShadow: `0 8px 24px -8px ${event.heroTheme.glowColor}`,
                 }}
               >
                 {/* Card Image Banner */}
@@ -183,17 +172,17 @@ export default function EventsSection({
                     src={event.image}
                     alt={event.title}
                     fill
+                    priority={index === 0}
+                    loading={index === 0 ? "eager" : "lazy"}
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     className={`object-cover object-center group-hover:scale-105 transition-transform duration-500 ${
-                      event.id === "marvel-in-motion" && isRevealed
-                        ? "spidey-web-reveal"
-                        : ""
+                      event.id === "marvel-in-motion" ? "spidey-web-reveal" : ""
                     }`}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/35 to-transparent" />
 
                   {/* Hero Theme Badge */}
-                  <div className="absolute top-3 left-3 flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-950/80 backdrop-blur-md border border-slate-700 text-xs font-mono-code font-bold text-white z-10">
+                  <div className="absolute top-3 left-3 flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-950/90 border border-slate-700/80 text-xs font-mono-code font-bold text-white z-10 shadow-md">
                     <span
                       className="w-2 h-2 rounded-full"
                       style={{ backgroundColor: event.heroTheme.accentColor }}
@@ -202,7 +191,7 @@ export default function EventsSection({
                   </div>
 
                   {/* Category Pill */}
-                  <div className="absolute top-3 right-3 px-2.5 py-0.5 rounded-full bg-black/60 border border-slate-800 text-[10px] font-mono-code text-slate-300 z-10">
+                  <div className="absolute top-3 right-3 px-2.5 py-0.5 rounded-full bg-black/75 border border-slate-800 text-[10px] font-mono-code text-slate-300 z-10">
                     {event.category}
                   </div>
 
@@ -214,10 +203,10 @@ export default function EventsSection({
                   )}
 
                   {/* One-time Deliberate Accent Overlays */}
-                  {event.id === "marvel-in-motion" && isRevealed && (
+                  {event.id === "marvel-in-motion" && (
                     <div className="absolute inset-0 pointer-events-none spidey-lens-flash" />
                   )}
-                  {event.id === "avengers-battleworld" && isRevealed && (
+                  {event.id === "avengers-battleworld" && (
                     <div className="absolute inset-0 pointer-events-none battleworld-arc-flash" />
                   )}
                 </div>
@@ -273,10 +262,10 @@ export default function EventsSection({
       </div>
 
       <style jsx>{`
-        /* 1. Spider-Man One-Time Web Drop Reveal */
+        /* 1. Spider-Man One-Time Web Drop Reveal (GPU Composited) */
         @keyframes spideyWebDrop {
           0% {
-            transform: translateY(-16px) scale(1.04);
+            transform: translateY(-14px) scale(1.03);
             opacity: 0.85;
           }
           100% {
@@ -284,103 +273,94 @@ export default function EventsSection({
             opacity: 1;
           }
         }
-        .spidey-web-reveal {
-          animation: spideyWebDrop 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        .is-revealed .spidey-web-reveal {
+          animation: spideyWebDrop 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
         /* Spider-Man Quick Lens Shutter Flash */
         @keyframes spideyLensFlash {
           0% {
             opacity: 0.45;
-            background: rgba(255, 255, 255, 0.35);
+            background: rgba(255, 255, 255, 0.3);
           }
           100% {
             opacity: 0;
             background: transparent;
           }
         }
-        .spidey-lens-flash {
-          animation: spideyLensFlash 0.5s ease-out forwards;
+        .is-revealed .spidey-lens-flash {
+          animation: spideyLensFlash 0.45s ease-out forwards;
         }
 
-        /* 2. Doctor Strange One-Time Portal Border Sweep */
+        /* 2. Doctor Strange One-Time Portal Border Sweep (Border-color only, 0 box-shadow repaints) */
         @keyframes strangePortalSweep {
           0% {
             border-color: rgba(245, 158, 11, 0.9);
-            box-shadow: 0 0 35px rgba(168, 85, 247, 0.7);
           }
           50% {
             border-color: rgba(168, 85, 247, 0.9);
-            box-shadow: 0 0 45px rgba(245, 158, 11, 0.8);
           }
           100% {
             border-color: rgba(51, 65, 85, 0.9);
-            box-shadow: 0 10px 30px -10px rgba(168, 85, 247, 0.45);
           }
         }
-        .strange-portal-pulse {
-          animation: strangePortalSweep 1.1s ease-out forwards;
+        .card-strange.is-revealed {
+          animation: strangePortalSweep 0.85s ease-out forwards;
         }
 
         /* 3. Avengers Battleworld One-Time Lightning Strike */
         @keyframes battleworldBorderFlash {
           0% {
             border-color: #38bdf8;
-            box-shadow: 0 0 30px rgba(56, 189, 248, 0.8);
           }
           30% {
             border-color: #f59e0b;
-            box-shadow: 0 0 40px rgba(245, 158, 11, 0.9);
           }
           100% {
             border-color: rgba(51, 65, 85, 0.9);
-            box-shadow: 0 10px 30px -10px rgba(245, 158, 11, 0.45);
           }
         }
-        .battleworld-lightning-flash {
-          animation: battleworldBorderFlash 0.75s ease-out forwards;
+        .card-battleworld.is-revealed {
+          animation: battleworldBorderFlash 0.7s ease-out forwards;
         }
 
         @keyframes battleworldArc {
           0% {
             opacity: 0.35;
-            background: rgba(56, 189, 248, 0.25);
+            background: rgba(56, 189, 248, 0.2);
           }
           100% {
             opacity: 0;
             background: transparent;
           }
         }
-        .battleworld-arc-flash {
-          animation: battleworldArc 0.4s ease-out forwards;
+        .is-revealed .battleworld-arc-flash {
+          animation: battleworldArc 0.35s ease-out forwards;
         }
 
         /* 4. Project What If Reality Shift */
         @keyframes realityShift {
           0% {
-            opacity: 0.8;
-            filter: hue-rotate(60deg) contrast(1.15);
+            opacity: 0.85;
           }
           100% {
             opacity: 1;
-            filter: hue-rotate(0deg) contrast(1);
           }
         }
-        .whatif-reality-shift {
-          animation: realityShift 0.85s ease-out forwards;
+        .card-whatif.is-revealed {
+          animation: realityShift 0.7s ease-out forwards;
         }
 
         /* Accessibility: Disable motion when user prefers reduced motion */
         @media (prefers-reduced-motion: reduce) {
-          .spidey-web-reveal,
-          .spidey-lens-flash,
-          .strange-portal-pulse,
-          .battleworld-lightning-flash,
-          .battleworld-arc-flash,
-          .whatif-reality-shift {
+          .card-strange.is-revealed,
+          .card-battleworld.is-revealed,
+          .card-whatif.is-revealed,
+          .is-revealed .spidey-web-reveal,
+          .is-revealed .spidey-lens-flash,
+          .is-revealed .battleworld-arc-flash {
             animation: none !important;
             opacity: 1 !important;
-            filter: none !important;
           }
         }
       `}</style>

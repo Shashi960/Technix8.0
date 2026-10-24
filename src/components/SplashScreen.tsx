@@ -28,7 +28,6 @@ export default function SplashScreen({
 }: SplashScreenProps) {
   const [phase, setPhase] = useState<IntroPhase>("init");
   const [progress, setProgress] = useState(0);
-  const [showSheen, setShowSheen] = useState(false);
   const [isReducedMotion, setIsReducedMotion] = useState(false);
 
   // Transform coordinates for FLIP animation
@@ -161,7 +160,6 @@ export default function SplashScreen({
       };
     };
 
-    let tSheen: NodeJS.Timeout;
     let tTransition: NodeJS.Timeout;
     let tSettle: NodeJS.Timeout;
     let tDone: NodeJS.Timeout;
@@ -179,11 +177,6 @@ export default function SplashScreen({
         ? "opacity 400ms ease-out"
         : "transform 450ms cubic-bezier(0.2, 0.8, 0.2, 1), opacity 400ms ease-out",
     });
-
-    // Trigger theatrical sheen sweep across logo when color fill is near peak
-    tSheen = setTimeout(() => {
-      setShowSheen(true);
-    }, Math.max(1200, holdDurationMs * 0.55));
 
     // Phase C: Dynamic scale-down transition starts after hold/loading completes
     tTransition = setTimeout(() => {
@@ -226,7 +219,6 @@ export default function SplashScreen({
     }, holdDurationMs);
 
     return () => {
-      clearTimeout(tSheen);
       clearTimeout(tTransition);
       clearTimeout(tSettle);
       clearTimeout(tDone);
@@ -261,9 +253,8 @@ export default function SplashScreen({
         - Fades smoothly to opacity 0 during Phase C to reveal HeroSection underneath
       */}
       <div
-        className={`absolute inset-0 z-0 bg-[#04060C] transition-opacity duration-900 ease-out pointer-events-none ${
-          isBackdropFading ? "opacity-0" : "opacity-100"
-        }`}
+        className={`absolute inset-0 z-0 bg-[#04060C] transition-opacity duration-900 ease-out pointer-events-none ${isBackdropFading ? "opacity-0" : "opacity-100"
+          }`}
       >
         {/* Ambient Red & Violet Convergence Nebula Halo */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[750px] h-[750px] rounded-full bg-red-600/20 blur-[160px] pointer-events-none" />
@@ -289,9 +280,8 @@ export default function SplashScreen({
       */}
       {!isFastTransition && (
         <div
-          className={`transition-opacity duration-900 ease-out pointer-events-none z-25 ${
-            isBackdropFading ? "opacity-0" : "opacity-100"
-          }`}
+          className={`transition-opacity duration-900 ease-out pointer-events-none z-25 ${isBackdropFading ? "opacity-0" : "opacity-100"
+            }`}
         >
           <SpiderManEntrance className="pointer-events-none absolute top-0 right-4 sm:right-8 md:right-14 lg:right-20 z-25 select-none" />
         </div>
@@ -318,7 +308,6 @@ export default function SplashScreen({
             glow={true}
             mode="fill-progress"
             progress={progress}
-            showSheen={showSheen}
             priority={true}
           />
         </div>

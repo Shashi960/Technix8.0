@@ -46,6 +46,40 @@ const GRAFFITI_PATHS = {
     "M 454,160 L 490,160 L 524,180 L 532,212 L 522,218 L 530,244 L 508,266 L 484,268 L 450,268 L 418,260 L 408,236 L 418,212 L 410,182 Z M 470,182 L 496,212 L 494,242 L 470,250 L 446,240 L 444,212 Z",
 };
 
+// Render the handcrafted vector typography elements
+const TypographyGroup = ({
+  fillStyle,
+  uniqueId,
+}: {
+  fillStyle?: string;
+  uniqueId?: string;
+}) => (
+  <g
+    id={uniqueId ? `typo-${uniqueId}` : undefined}
+    fill={fillStyle || "currentColor"}
+    stroke="#060913"
+    strokeWidth="7"
+    strokeLinejoin="round"
+    strokeLinecap="round"
+    fillRule="evenodd"
+    paintOrder="stroke fill"
+  >
+    {/* ROW 1: "TECHNIX" */}
+    <path d={GRAFFITI_PATHS.T} />
+    <path d={GRAFFITI_PATHS.E} />
+    <path d={GRAFFITI_PATHS.C} />
+    <path d={GRAFFITI_PATHS.H} />
+    <path d={GRAFFITI_PATHS.N} />
+    <path d={GRAFFITI_PATHS.I} />
+    <path d={GRAFFITI_PATHS.X} />
+
+    {/* ROW 2: "8.0" (Centered below TECHNIX) */}
+    <path d={GRAFFITI_PATHS.EIGHT} />
+    <path d={GRAFFITI_PATHS.DOT} />
+    <path d={GRAFFITI_PATHS.ZERO} />
+  </g>
+);
+
 export default function TechnixGraffitiLogo({
   progress = 100,
   mode = "hero",
@@ -59,34 +93,6 @@ export default function TechnixGraffitiLogo({
   const clampedProgress = Math.min(100, Math.max(0, progress));
   // Total viewBox height is 280. Fills from bottom (y=280) to top (y=0)
   const fillY = 280 - (clampedProgress / 100) * 280;
-
-  // Render the handcrafted vector typography elements
-  const TypographyGroup = ({ fillStyle }: { fillStyle?: string }) => (
-    <g
-      id={`typo-${uniqueId}`}
-      fill={fillStyle || "currentColor"}
-      stroke="#060913"
-      strokeWidth="7"
-      strokeLinejoin="round"
-      strokeLinecap="round"
-      fillRule="evenodd"
-      paintOrder="stroke fill"
-    >
-      {/* ROW 1: "TECHNIX" */}
-      <path d={GRAFFITI_PATHS.T} />
-      <path d={GRAFFITI_PATHS.E} />
-      <path d={GRAFFITI_PATHS.C} />
-      <path d={GRAFFITI_PATHS.H} />
-      <path d={GRAFFITI_PATHS.N} />
-      <path d={GRAFFITI_PATHS.I} />
-      <path d={GRAFFITI_PATHS.X} />
-
-      {/* ROW 2: "8.0" (Centered below TECHNIX) */}
-      <path d={GRAFFITI_PATHS.EIGHT} />
-      <path d={GRAFFITI_PATHS.DOT} />
-      <path d={GRAFFITI_PATHS.ZERO} />
-    </g>
-  );
 
   // HERO MODE: Solid Brilliant White with clean outline & crisp black depth shadow (no colored side haze)
   if (mode === "hero") {
@@ -108,7 +114,7 @@ export default function TechnixGraffitiLogo({
           </filter>
         </defs>
         <g filter={glow ? `url(#${glowId})` : undefined}>
-          <TypographyGroup fillStyle="#FFFFFF" />
+          <TypographyGroup fillStyle="#FFFFFF" uniqueId={uniqueId} />
         </g>
       </svg>
     );
@@ -122,7 +128,7 @@ export default function TechnixGraffitiLogo({
         className={className}
         xmlns="http://www.w3.org/2000/svg"
       >
-        <TypographyGroup fillStyle="#FFFFFF" />
+        <TypographyGroup fillStyle="#FFFFFF" uniqueId={uniqueId} />
       </svg>
     );
   }
@@ -193,11 +199,17 @@ export default function TechnixGraffitiLogo({
         </defs>
 
         {/* 1. Base Unfilled Concrete Grey Layer */}
-        <TypographyGroup fillStyle={`url(#greyGrad-${uniqueId})`} />
+        <TypographyGroup
+          fillStyle={`url(#greyGrad-${uniqueId})`}
+          uniqueId={uniqueId}
+        />
 
         {/* 2. Vibrant Hot Pink Filled Layer (Clipped to current progress) */}
         <g clipPath={`url(#${clipId})`}>
-          <TypographyGroup fillStyle={`url(#pinkGrad-${uniqueId})`} />
+          <TypographyGroup
+            fillStyle={`url(#pinkGrad-${uniqueId})`}
+            uniqueId={uniqueId}
+          />
         </g>
 
         {/* 3. Horizontal Liquid Waterline Edge */}

@@ -195,18 +195,34 @@ export default function EventsLoading({
       }
     }
 
-    // Initialize Particle Pool: ~180 core ring sparks + ~260 tangential ejected sparks
-    const sparksCount = width < 640 ? 280 : 440;
-    const coreCount = Math.floor(sparksCount * 0.42);
+    // Initialize Particle Pool: Optimized ~100 core ring sparks + ~120 tangential ejected sparks
+    const sparksCount = width < 640 ? 160 : 220;
+    const coreCount = Math.floor(sparksCount * 0.45);
     const sprayCount = sparksCount - coreCount;
 
     const sparks: Spark[] = [];
     for (let i = 0; i < coreCount; i++) sparks.push(new Spark(true));
     for (let i = 0; i < sprayCount; i++) sparks.push(new Spark(false));
 
+    // Pre-create ambient gradient once (avoids GC churn in render loop)
+    const auraGradient = ctx.createRadialGradient(
+      centerX,
+      centerY,
+      radius * 0.7,
+      centerX,
+      centerY,
+      radius * 1.5
+    );
+    auraGradient.addColorStop(0, "rgba(255, 140, 20, 0.12)");
+    auraGradient.addColorStop(0.5, "rgba(200, 60, 0, 0.05)");
+    auraGradient.addColorStop(1, "rgba(0, 0, 0, 0)");
+
     let lastTime = performance.now();
 
     const renderLoop = (now: number) => {
+      // Cease rendering immediately when fading out to yield CPU/GPU to page reveal
+      if (isFadingOut) return;
+
       const dt = Math.min(0.045, (now - lastTime) / 1000);
       lastTime = now;
 
@@ -219,17 +235,6 @@ export default function EventsLoading({
       ctx.globalCompositeOperation = "lighter";
 
       // 3. Ambient Volumetric Portal Aura behind the ring
-      const auraGradient = ctx.createRadialGradient(
-        centerX,
-        centerY,
-        radius * 0.7,
-        centerX,
-        centerY,
-        radius * 1.5
-      );
-      auraGradient.addColorStop(0, "rgba(255, 140, 20, 0.12)");
-      auraGradient.addColorStop(0.5, "rgba(200, 60, 0, 0.05)");
-      auraGradient.addColorStop(1, "rgba(0, 0, 0, 0)");
       ctx.fillStyle = auraGradient;
       ctx.beginPath();
       ctx.arc(centerX, centerY, radius * 1.5, 0, Math.PI * 2);
@@ -251,7 +256,7 @@ export default function EventsLoading({
       cancelAnimationFrame(animationFrameId);
       window.removeEventListener("resize", handleResize);
     };
-  }, [isReducedMotion]);
+  }, [isReducedMotion, isFadingOut]);
 
   return (
     <div

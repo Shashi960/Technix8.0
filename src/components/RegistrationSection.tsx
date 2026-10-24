@@ -1,11 +1,12 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Image from "next/image";
 import confetti from "canvas-confetti";
 import { eventsData } from "@/data/eventsData";
 import { festConfig } from "@/data/festConfig";
 import { RegistrationSubmission } from "@/types";
-import { Shield, Zap, CheckCircle2, AlertTriangle, Download, Printer, User, Mail, Phone, School, Users, Ticket } from "lucide-react";
+import { Shield, Zap, CheckCircle2, AlertTriangle, Download, Printer, User, Mail, Phone, School, Users, Ticket, Calendar, MapPin, Award } from "lucide-react";
 
 interface RegistrationSectionProps {
   preSelectedEventId?: string | null;
@@ -105,9 +106,27 @@ export default function RegistrationSection({
   };
 
   return (
-    <section id="register" className="relative py-24 px-4 bg-[#070912] border-t border-slate-900 overflow-hidden">
-      {/* Background Stark Glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] bg-red-950/15 rounded-full blur-3xl pointer-events-none" />
+    <section id="register" className="relative py-24 px-4 bg-[#070912] border-t border-slate-900 overflow-hidden transition-colors duration-700">
+      {/* Background Hero Artwork & Atmospheric Glow */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
+        <Image
+          src={currentEvent.image}
+          alt={currentEvent.title}
+          fill
+          priority
+          className="object-cover object-center filter brightness-[0.22] contrast-125 scale-105 transition-all duration-700"
+        />
+        <div
+          className="absolute inset-0"
+          style={{
+            background: `linear-gradient(180deg, rgba(7, 9, 18, 0.88) 0%, rgba(6, 8, 16, 0.94) 40%, rgba(4, 6, 12, 0.98) 100%)`,
+          }}
+        />
+        <div
+          className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[750px] h-[450px] rounded-full blur-3xl opacity-25 pointer-events-none transition-all duration-700"
+          style={{ backgroundColor: currentEvent.heroTheme.accentColor }}
+        />
+      </div>
 
       <div className="max-w-4xl mx-auto relative z-10">
         {/* Section Header */}
@@ -133,7 +152,13 @@ export default function RegistrationSection({
 
         {/* If Ticket Generated -> Holographic Ticket View */}
         {ticketData ? (
-          <div className="p-6 sm:p-10 rounded-3xl bg-slate-950/95 border border-red-500/60 shadow-2xl glow-red relative overflow-hidden animate-in zoom-in-95 duration-300">
+          <div
+            className="p-6 sm:p-10 rounded-3xl bg-slate-950/95 border shadow-2xl relative overflow-hidden animate-in zoom-in-95 duration-300"
+            style={{
+              borderColor: currentEvent.heroTheme.accentColor,
+              boxShadow: `0 0 40px ${currentEvent.heroTheme.glowColor}`,
+            }}
+          >
             {/* Holographic Watermark Pattern */}
             <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
               <Shield className="w-64 h-64 text-red-500" />
@@ -142,7 +167,10 @@ export default function RegistrationSection({
             <div className="relative z-10">
               <div className="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-slate-800">
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-2xl bg-red-600 flex items-center justify-center text-white font-heading font-black text-xl shadow-lg">
+                  <div
+                    className="w-12 h-12 rounded-2xl flex items-center justify-center text-white font-heading font-black text-xl shadow-lg"
+                    style={{ backgroundColor: currentEvent.heroTheme.accentColor }}
+                  >
                     TX8
                   </div>
                   <div>
@@ -266,7 +294,11 @@ export default function RegistrationSection({
           /* Registration Form */
           <form
             onSubmit={handleRegister}
-            className="p-6 sm:p-10 rounded-3xl bg-slate-950/90 border border-slate-800 backdrop-blur-md shadow-2xl space-y-8"
+            className="p-6 sm:p-10 rounded-3xl bg-slate-950/90 border backdrop-blur-md shadow-2xl space-y-8 transition-all duration-500"
+            style={{
+              borderColor: `${currentEvent.heroTheme.accentColor}55`,
+              boxShadow: `0 20px 60px -15px ${currentEvent.heroTheme.glowColor}`,
+            }}
           >
             {/* Event Selector */}
             <div>
@@ -276,7 +308,7 @@ export default function RegistrationSection({
               <select
                 value={selectedEventId}
                 onChange={(e) => setSelectedEventId(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm sm:text-base font-tech font-bold focus:border-red-500 focus:outline-none"
+                className="w-full px-4 py-3 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm sm:text-base font-tech font-bold focus:border-red-500 focus:outline-none cursor-pointer"
               >
                 {eventsData.map((ev) => (
                   <option key={ev.id} value={ev.id}>
@@ -285,12 +317,58 @@ export default function RegistrationSection({
                 ))}
               </select>
 
-              <div className="mt-2 flex flex-wrap items-center gap-3 text-xs font-mono-code text-slate-400">
-                <span>Theme: <strong className="text-white">{currentEvent.marvelCharacter}</strong></span>
-                <span>•</span>
-                <span>Team: <strong className="text-white">{currentEvent.teamSize.label}</strong></span>
-                <span>•</span>
-                <span>Fee: <strong className="text-amber-400">{currentEvent.registrationFee}</strong></span>
+              {/* Event Hero Theme Card Banner */}
+              <div
+                className="mt-4 p-4 rounded-2xl bg-slate-900/80 border flex flex-col sm:flex-row items-start sm:items-center gap-4 transition-all duration-300"
+                style={{ borderColor: `${currentEvent.heroTheme.accentColor}66` }}
+              >
+                <div
+                  className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden border-2 flex-shrink-0 shadow-lg"
+                  style={{ borderColor: currentEvent.heroTheme.accentColor }}
+                >
+                  <Image
+                    src={currentEvent.image}
+                    alt={currentEvent.title}
+                    fill
+                    className="object-cover object-center"
+                  />
+                </div>
+
+                <div className="flex-1">
+                  <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-black/60 border border-slate-700 text-[10px] font-mono-code text-amber-400 mb-1">
+                    <span
+                      className="w-2 h-2 rounded-full animate-pulse"
+                      style={{ backgroundColor: currentEvent.heroTheme.accentColor }}
+                    />
+                    <span>{currentEvent.category.toUpperCase()} PROTOCOL</span>
+                    <span>•</span>
+                    <span className="text-white font-bold">{currentEvent.marvelCharacter}</span>
+                  </div>
+
+                  <h3 className="font-heading text-base sm:text-lg font-black text-white uppercase tracking-wide">
+                    {currentEvent.title}
+                  </h3>
+                  <p className="text-xs text-slate-300 italic font-sans">
+                    &ldquo;{currentEvent.characterTitle}&rdquo;
+                  </p>
+
+                  <div className="mt-2 flex flex-wrap items-center gap-3 text-[11px] font-mono-code text-slate-400">
+                    <span className="flex items-center gap-1 text-slate-200">
+                      <Users className="w-3 h-3 text-cyan-400" />
+                      {currentEvent.teamSize.label}
+                    </span>
+                    <span>•</span>
+                    <span className="flex items-center gap-1 text-slate-200">
+                      <Calendar className="w-3 h-3 text-red-400" />
+                      {currentEvent.scheduleTime}
+                    </span>
+                    <span>•</span>
+                    <span className="flex items-center gap-1 text-slate-200">
+                      <MapPin className="w-3 h-3 text-emerald-400" />
+                      {currentEvent.venue}
+                    </span>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -481,7 +559,11 @@ export default function RegistrationSection({
               <button
                 type="submit"
                 disabled={isSubmitting || !agreedToTerms}
-                className="w-full inline-flex items-center justify-center gap-2 py-4 rounded-xl bg-gradient-to-r from-red-600 via-red-700 to-amber-600 hover:from-red-500 hover:to-amber-500 text-white font-heading text-sm sm:text-base font-extrabold tracking-wider shadow-xl shadow-red-950/80 glow-red transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed hover:scale-[1.01] active:scale-[0.99]"
+                className="w-full inline-flex items-center justify-center gap-2 py-4 rounded-xl text-white font-heading text-sm sm:text-base font-extrabold tracking-wider shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed hover:scale-[1.01] active:scale-[0.99] cursor-pointer"
+                style={{
+                  background: `linear-gradient(135deg, ${currentEvent.heroTheme.accentColor}, #b91c1c)`,
+                  boxShadow: `0 8px 30px ${currentEvent.heroTheme.glowColor}`,
+                }}
               >
                 {isSubmitting ? (
                   <>
@@ -491,7 +573,7 @@ export default function RegistrationSection({
                 ) : (
                   <>
                     <Zap className="w-5 h-5 text-amber-300" />
-                    CONFIRM &amp; GENERATE ADMISSION PASS
+                    CONFIRM REGISTRATION FOR {currentEvent.title.split("—")[0].trim().toUpperCase()}
                   </>
                 )}
               </button>

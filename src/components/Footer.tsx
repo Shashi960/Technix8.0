@@ -23,7 +23,7 @@ export default function Footer({ onOpenEventDetails }: FooterProps) {
     { name: "Home", href: "/" },
     { name: "Cultural Arena", href: "/cultural" },
     { name: "Sports & Gaming", href: "/sports" },
-    { name: "All 11 Events", href: "/events" },
+    { name: "All 9 Events", href: "/events" },
     { name: "Fest Schedule", href: "/schedule" },
     { name: "Passes & Registration", href: "/passes" },
     { name: "Sponsors & Partners", href: "/sponsors" },

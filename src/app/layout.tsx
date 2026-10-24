@@ -96,7 +96,8 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${rajdhani.variable} ${orbitron.variable} ${spaceMono.variable} ${bangers.variable} scroll-smooth dark`}
+      data-scroll-behavior="smooth"
+      className={`${inter.variable} ${rajdhani.variable} ${orbitron.variable} ${spaceMono.variable} ${bangers.variable} dark`}
     >
       <body className="min-h-screen bg-[#04060C] text-slate-100 font-sans antialiased selection:bg-pink-600 selection:text-white overflow-x-hidden">
         <PageTransitionProvider>

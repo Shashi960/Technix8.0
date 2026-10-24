@@ -60,6 +60,7 @@ export default function EventDetailModal({
             src={event.image}
             alt={event.title}
             fill
+            sizes="(max-width: 768px) 100vw, 896px"
             className="object-cover object-center"
             priority
           />
