@@ -19,6 +19,7 @@ import {
   MapPin,
   CheckCircle2,
   AlertTriangle,
+  Sparkles,
 } from "lucide-react";
 
 interface RegistrationSectionProps {
@@ -208,198 +209,213 @@ export default function RegistrationSection({
       </div>
 
       {/* ================================================================= */}
-      {/* 3. WHITE GALLERY SHOWROOM CONTAINER                                */}
+      {/* 3. GALLERY SHOWROOM CONTAINER WITH NEUMORPHIC CHASSIS               */}
       {/* ================================================================= */}
-      <div className="w-full bg-[#FFFFFF] text-slate-900 pt-8 pb-24 px-4 sm:px-6 lg:px-8 border-t border-slate-300 shadow-2xl relative z-20">
-        <div className="max-w-4xl mx-auto">
+      <div className="w-full bg-[#121315] text-slate-100 pt-8 pb-24 px-4 sm:px-6 lg:px-8 border-t border-black/40 shadow-2xl relative z-20">
+        <div className="max-w-xl mx-auto">
           {/* Top Status & Security Bar */}
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pb-6 mb-8 border-b border-slate-200">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pb-6 mb-8 border-b border-white/10">
             <div className="flex items-center gap-2">
               <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
-              <span className="font-tech font-bold text-sm tracking-wider uppercase text-slate-800">
+              <span className="font-tech font-bold text-sm tracking-wider uppercase text-slate-300">
                 OFFICIAL ADMISSION GATEWAY
               </span>
             </div>
 
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-100 border border-slate-300 text-xs font-mono-code text-slate-700">
-              <Shield className="w-3.5 h-3.5 text-red-600" />
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#161719] border border-white/10 text-xs font-mono-code text-slate-300 neu-btn">
+              <Shield className="w-3.5 h-3.5 text-red-500" />
               <span>COLLEGE ID CARD VERIFICATION MANDATORY</span>
             </div>
           </div>
 
           {/* Ticket View If Generated */}
           {ticketData ? (
-            <div
-              className="p-6 sm:p-10 rounded-3xl bg-slate-950 text-white border shadow-2xl relative overflow-hidden animate-in zoom-in-95 duration-300"
-              style={{
-                borderColor: currentEvent.heroTheme.accentColor,
-                boxShadow: `0 0 45px ${currentEvent.heroTheme.glowColor}`,
-              }}
-            >
-              {/* Watermark Shield */}
-              <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
-                <Shield className="w-64 h-64 text-red-500" />
+            <div className="neu-chassis rounded-[36px] p-6 sm:p-8 md:p-10 border border-black/40 text-slate-100 shadow-2xl space-y-6 animate-in zoom-in-95 duration-300">
+              {/* Phone Status Bar */}
+              <div className="w-full pb-2 flex items-center justify-between text-[11px] font-mono-code text-slate-400 select-none border-b border-black/30">
+                <span className="font-bold tracking-wider text-slate-300">24.00</span>
+                <div className="flex items-center gap-2">
+                  <span className="text-[10px] tracking-widest font-mono-code">5G</span>
+                  <span className="inline-block w-4 h-2 border border-slate-500 rounded-xs relative">
+                    <span className="absolute inset-0.5 bg-[#F5B800] rounded-xs" />
+                  </span>
+                </div>
               </div>
 
-              <div className="relative z-10">
-                <div className="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-slate-800">
-                  <div className="flex items-center gap-3">
-                    <div
-                      className="w-12 h-12 rounded-2xl flex items-center justify-center text-white font-heading font-black text-xl shadow-lg"
-                      style={{
-                        backgroundColor: currentEvent.heroTheme.accentColor,
-                      }}
-                    >
-                      TX8
-                    </div>
-                    <div>
-                      <h3 className="font-heading text-xl sm:text-2xl font-black text-white uppercase tracking-tight">
-                        OFFICIAL ADMISSION PASS
-                      </h3>
-                      <span className="font-mono-code text-xs text-amber-400 font-bold">
-                        {festConfig.name} • BMSIT Yelahanka Bengaluru
-                      </span>
-                    </div>
-                  </div>
+              {/* Ticket Header */}
+              <div className="text-center pt-2 pb-1">
+                <div className="w-14 h-14 rounded-full neu-btn mx-auto flex items-center justify-center text-[#F5B800] font-heading font-black text-xl mb-3">
+                  TX8
+                </div>
+                <span className="font-mono-code text-[11px] text-slate-400 uppercase tracking-widest block">
+                  OFFICIAL ADMISSION PASSCODE
+                </span>
+                <span className="font-heading text-2xl sm:text-3xl font-black text-[#F5B800] tracking-wider block mt-1 drop-shadow-sm">
+                  {ticketData.passCode}
+                </span>
+                <span className="font-mono-code text-xs text-amber-300/90 font-bold block mt-1">
+                  {festConfig.name} • BMSIT Yelahanka Bengaluru
+                </span>
+              </div>
 
-                  <div className="text-right">
-                    <span className="font-mono-code text-xs text-slate-400 block uppercase">
-                      PASSCODE ID
-                    </span>
-                    <span className="font-heading text-lg sm:text-xl font-black text-amber-400 tracking-wider">
-                      {ticketData.passCode}
-                    </span>
-                  </div>
+              {/* Inset Ticket Cards */}
+              <div className="space-y-3 text-xs">
+                <div className="neu-inset rounded-2xl p-4">
+                  <span className="text-[10px] font-mono-code text-slate-400 uppercase block">
+                    REGISTERED PROTOCOL / ARENA
+                  </span>
+                  <span className="font-heading text-base font-bold text-white block mt-0.5">
+                    {ticketData.eventTitle}
+                  </span>
+                  <span className="text-xs text-[#F5B800] font-mono-code font-bold">
+                    {currentEvent.marvelCharacter}
+                  </span>
                 </div>
 
-                {/* Ticket Details Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 py-6 border-b border-slate-800 text-sm">
-                  <div>
-                    <span className="font-mono-code text-[11px] text-slate-500 block uppercase">
-                      REGISTERED PROTOCOL
-                    </span>
-                    <span className="font-heading text-base font-bold text-white block mt-0.5">
-                      {ticketData.eventTitle}
-                    </span>
-                    <span className="text-xs text-amber-400 font-mono-code">
-                      {currentEvent.marvelCharacter}
-                    </span>
-                  </div>
-
-                  <div>
-                    <span className="font-mono-code text-[11px] text-slate-500 block uppercase">
-                      PARTICIPANT / TEAM LEAD
-                    </span>
-                    <span className="font-bold text-slate-100 block mt-0.5">
-                      {ticketData.leadName}
-                    </span>
-                    <span className="text-xs text-slate-400 font-mono-code">
-                      {ticketData.email} • {ticketData.phone}
-                    </span>
-                  </div>
-
-                  <div>
-                    <span className="font-mono-code text-[11px] text-slate-500 block uppercase">
-                      INSTITUTION / COLLEGE
-                    </span>
-                    <span className="font-bold text-slate-100 block mt-0.5">
-                      {ticketData.collegeName}
-                    </span>
-                    <span className="text-xs text-slate-400 font-mono-code">
-                      {ticketData.department} ({ticketData.yearOfStudy})
-                    </span>
-                  </div>
-
-                  {ticketData.teamName && (
-                    <div>
-                      <span className="font-mono-code text-[11px] text-slate-500 block uppercase">
-                        TEAM NAME
-                      </span>
-                      <span className="font-bold text-cyan-400">
-                        {ticketData.teamName}
-                      </span>
-                    </div>
-                  )}
-
-                  {ticketData.members.length > 0 && (
-                    <div className="sm:col-span-2">
-                      <span className="font-mono-code text-[11px] text-slate-500 block uppercase mb-1">
-                        ASSEMBLED TEAM SQUAD
-                      </span>
-                      <div className="flex flex-wrap gap-2">
-                        {ticketData.members.map((m, idx) => (
-                          <span
-                            key={idx}
-                            className="px-2.5 py-1 rounded bg-slate-900 border border-slate-800 text-xs font-mono-code text-slate-300"
-                          >
-                            Member {idx + 1}: {m}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  )}
+                <div className="neu-inset rounded-2xl p-4">
+                  <span className="text-[10px] font-mono-code text-slate-400 uppercase block">
+                    PARTICIPANT / TEAM LEAD
+                  </span>
+                  <span className="font-bold text-white text-sm block mt-0.5">
+                    {ticketData.leadName}
+                  </span>
+                  <span className="text-slate-400 font-mono-code text-xs">
+                    {ticketData.email} • {ticketData.phone}
+                  </span>
                 </div>
 
-                {/* Barcode & Security Hologram Footer */}
-                <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-6">
-                  <div>
-                    <div className="flex items-center gap-1 font-mono-code text-lg tracking-[8px] text-slate-400 select-none">
-                      ||| | |||| | ||||| || ||| ||||
-                    </div>
-                    <span className="font-mono-code text-[10px] text-slate-500">
-                      CRYPTOGRAPHIC HASH: {ticketData.id} • VALID COLLEGE ID REQUIRED AT ENTRANCE
+                <div className="neu-inset rounded-2xl p-4">
+                  <span className="text-[10px] font-mono-code text-slate-400 uppercase block">
+                    INSTITUTION / COLLEGE
+                  </span>
+                  <span className="font-bold text-white text-sm block mt-0.5">
+                    {ticketData.collegeName}
+                  </span>
+                  <span className="text-slate-400 font-mono-code text-xs">
+                    {ticketData.department} ({ticketData.yearOfStudy})
+                  </span>
+                </div>
+
+                {ticketData.teamName && (
+                  <div className="neu-inset rounded-2xl p-4">
+                    <span className="text-[10px] font-mono-code text-slate-400 uppercase block">
+                      SQUAD CODENAME
+                    </span>
+                    <span className="font-bold text-amber-400 text-sm block mt-0.5">
+                      {ticketData.teamName}
                     </span>
                   </div>
+                )}
 
-                  <div className="flex items-center gap-3 w-full sm:w-auto">
-                    <button
-                      onClick={handlePrint}
-                      className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white border border-slate-700 text-xs font-heading font-bold transition-colors cursor-pointer"
-                    >
-                      <Printer className="w-4 h-4 text-cyan-400" />
-                      PRINT PASS
-                    </button>
-                    <button
-                      onClick={() => {
-                        setTicketData(null);
-                        if (onClearPreSelected) onClearPreSelected();
-                      }}
-                      className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-red-600 to-amber-600 text-white text-xs font-heading font-extrabold hover:from-red-500 hover:to-amber-500 transition-all shadow-md cursor-pointer"
-                    >
-                      <Zap className="w-4 h-4 text-amber-300" />
-                      REGISTER ANOTHER PROTOCOL
-                    </button>
+                {ticketData.members.length > 0 && (
+                  <div className="neu-inset rounded-2xl p-4">
+                    <span className="text-[10px] font-mono-code text-slate-400 uppercase block mb-1.5">
+                      ASSEMBLED ALLIES
+                    </span>
+                    <div className="flex flex-wrap gap-2">
+                      {ticketData.members.map((m, idx) => (
+                        <span
+                          key={idx}
+                          className="px-2.5 py-1 rounded-full bg-black/40 text-xs font-mono-code text-slate-300 border border-white/5"
+                        >
+                          Ally #{idx + 2}: {m}
+                        </span>
+                      ))}
+                    </div>
                   </div>
+                )}
+              </div>
+
+              {/* Barcode */}
+              <div className="pt-3 text-center">
+                <div className="font-mono-code text-base tracking-[8px] text-slate-400 select-none">
+                  ||| | |||| | ||||| || ||| ||||
                 </div>
+                <span className="font-mono-code text-[10px] text-slate-500 mt-1 block">
+                  CRYPTOGRAPHIC HASH: {ticketData.id} • BMSIT YELAHANKA ENTRANCE
+                </span>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="pt-4 space-y-3">
+                <button
+                  onClick={handlePrint}
+                  className="w-full neu-btn rounded-full py-3.5 text-center text-xs font-heading font-black text-[#F5B800] uppercase tracking-wider cursor-pointer flex items-center justify-center gap-2"
+                >
+                  <Printer className="w-4 h-4 text-[#F5B800]" />
+                  <span>PRINT ADMISSION PASS</span>
+                </button>
+
+                <button
+                  onClick={() => {
+                    setTicketData(null);
+                    if (onClearPreSelected) onClearPreSelected();
+                  }}
+                  className="w-full neu-btn rounded-full py-3 text-center text-xs font-mono-code font-bold text-slate-300 hover:text-white uppercase tracking-wider cursor-pointer flex items-center justify-center gap-2"
+                >
+                  <Zap className="w-4 h-4 text-amber-400" />
+                  <span>REGISTER ANOTHER PROTOCOL</span>
+                </button>
               </div>
             </div>
           ) : (
-            /* High-Contrast White Registration Form */
-            <form
-              onSubmit={handleRegister}
-              className="p-6 sm:p-10 rounded-2xl bg-white border border-slate-200 shadow-xl space-y-8"
-            >
-              {/* Step 1: Select Protocol / Event */}
-              <div>
-                <label className="block text-xs font-mono-code text-red-600 uppercase tracking-wider mb-2 font-bold">
-                  1. SELECT PROTOCOL / ARENA *
-                </label>
-                <select
-                  value={selectedEventId}
-                  onChange={(e) => setSelectedEventId(e.target.value)}
-                  className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-300 text-slate-900 text-sm sm:text-base font-tech font-bold focus:border-red-600 focus:bg-white focus:outline-none cursor-pointer shadow-sm transition-all"
-                >
-                  {eventsData.map((ev) => (
-                    <option key={ev.id} value={ev.id}>
-                      {ev.title} [{ev.marvelCharacter.split("—")[0].trim()}] — {ev.category}
-                    </option>
-                  ))}
-                </select>
+            /* ============================================================== */
+            /* DARK NEUMORPHIC SOFT-UI PHONE FORM (REFERENCE REPLICATION)      */
+            /* ============================================================== */
+            <div className="neu-chassis rounded-[36px] p-6 sm:p-8 md:p-10 border border-black/40 text-slate-100 shadow-2xl relative overflow-hidden">
+              {/* Phone Status Bar (24.00, 5G, Battery Indicator) */}
+              <div className="w-full pb-3 flex items-center justify-between text-[11px] font-mono-code text-slate-400 select-none border-b border-black/30">
+                <span className="font-bold tracking-wider text-slate-300">24.00</span>
+                <div className="flex items-center gap-2">
+                  <span className="text-[10px] tracking-widest font-mono-code">5G</span>
+                  <span className="inline-block w-4 h-2 border border-slate-500 rounded-xs relative">
+                    <span className="absolute inset-0.5 bg-[#F5B800] rounded-xs" />
+                  </span>
+                </div>
+              </div>
 
-                {/* Event Hero Theme Card Banner */}
-                <div className="mt-4 p-4 rounded-xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row items-start sm:items-center gap-4 shadow-sm">
+              {/* Header: HAPPY ANNIVERSARY -> TECHNIX 8.0 • BMSIT YELAHANKA */}
+              <div className="text-center pt-4 pb-4">
+                <p className="font-mono-code text-[10px] sm:text-[11px] font-bold tracking-[0.25em] text-slate-400 uppercase">
+                  TECHNIX 8.0 • BMSIT YELAHANKA
+                </p>
+
+                {/* Big Bold Golden Headline (GALERY TYPOGRAPHY -> EVENT TITLE / REGISTRATION) */}
+                <h2 className="font-heading font-black text-2xl sm:text-3xl md:text-4xl text-[#F5B800] uppercase tracking-wide mt-1 drop-shadow-sm">
+                  {currentEvent.title.split("—")[0].trim()}
+                </h2>
+
+                <p className="text-[11px] font-mono-code text-slate-400 mt-1">
+                  {currentEvent.category} Protocol • {currentEvent.teamSize.label} • Schedule: {currentEvent.scheduleTime}
+                </p>
+              </div>
+
+              {/* Form with Inset Pill Inputs */}
+              <form onSubmit={handleRegister} className="space-y-4">
+                {/* Protocol / Arena Selector */}
+                <div>
+                  <div className="relative">
+                    <select
+                      value={selectedEventId}
+                      onChange={(e) => setSelectedEventId(e.target.value)}
+                      className="w-full neu-inset rounded-full h-12 px-6 text-white text-xs sm:text-sm focus:outline-none cursor-pointer appearance-none bg-[#161719]"
+                    >
+                      {eventsData.map((ev) => (
+                        <option key={ev.id} value={ev.id} className="bg-[#161719] text-white py-1">
+                          {ev.title} [{ev.marvelCharacter.split("—")[0].trim()}] — {ev.category}
+                        </option>
+                      ))}
+                    </select>
+                    <div className="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400 text-xs">
+                      ▼
+                    </div>
+                  </div>
+                </div>
+
+                {/* Event Hero Mini Badge */}
+                <div className="neu-inset rounded-2xl p-3 flex items-center gap-3">
                   <div
-                    className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden border-2 flex-shrink-0 shadow-md bg-slate-900"
+                    className="relative w-12 h-12 rounded-xl overflow-hidden border flex-shrink-0 bg-slate-900 shadow-sm"
                     style={{ borderColor: currentEvent.heroTheme.accentColor }}
                   >
                     <Image
@@ -409,267 +425,218 @@ export default function RegistrationSection({
                       className="object-cover object-center"
                     />
                   </div>
-
-                  <div className="flex-1">
-                    <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-slate-900 text-[10px] font-mono-code text-white mb-1 shadow-xs">
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2">
                       <span
                         className="w-2 h-2 rounded-full"
-                        style={{
-                          backgroundColor: currentEvent.heroTheme.accentColor,
-                        }}
+                        style={{ backgroundColor: currentEvent.heroTheme.accentColor }}
                       />
-                      <span className="uppercase font-bold">
-                        {currentEvent.category} PROTOCOL
-                      </span>
-                      <span>•</span>
-                      <span className="text-amber-300 font-bold">
+                      <span className="text-[10px] font-mono-code font-bold text-[#F5B800] uppercase truncate">
                         {currentEvent.marvelCharacter}
                       </span>
                     </div>
-
-                    <h3 className="font-heading text-base sm:text-lg font-black text-slate-900 uppercase tracking-tight">
-                      {currentEvent.title}
-                    </h3>
-
-                    <div className="mt-2 flex flex-wrap items-center gap-3 text-[11px] font-mono-code text-slate-600">
-                      <span className="flex items-center gap-1 font-semibold">
-                        <Users className="w-3 h-3 text-red-600" />
-                        {currentEvent.teamSize.label}
-                      </span>
-                      <span>•</span>
-                      <span className="flex items-center gap-1 font-semibold">
-                        <Calendar className="w-3 h-3 text-amber-600" />
-                        Schedule: {currentEvent.scheduleTime}
-                      </span>
-                      <span>•</span>
-                      <span className="flex items-center gap-1 font-semibold">
-                        <MapPin className="w-3 h-3 text-emerald-600" />
-                        {currentEvent.venue}
-                      </span>
-                    </div>
+                    <p className="text-xs font-semibold text-white truncate">
+                      {currentEvent.shortDescription}
+                    </p>
+                    <p className="text-[10px] font-mono-code text-slate-400">
+                      Venue: {currentEvent.venue}
+                    </p>
                   </div>
                 </div>
-              </div>
 
-              {/* Step 2: Primary Candidate / Team Lead */}
-              <div>
-                <label className="block text-xs font-mono-code text-red-600 uppercase tracking-wider mb-4 font-bold">
-                  2. PRIMARY CANDIDATE / TEAM LEAD *
-                </label>
+                {/* Input 1: Full Legal Name */}
+                <div>
+                  <input
+                    type="text"
+                    required
+                    value={leadName}
+                    onChange={(e) => setLeadName(e.target.value)}
+                    placeholder="Full name ( Legal / College ID )"
+                    className="w-full neu-inset rounded-full h-12 px-6 text-white placeholder:text-slate-500 text-xs sm:text-sm focus:outline-none"
+                  />
+                </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-mono-code text-slate-600 mb-1 font-semibold">
-                      Full Name *
-                    </label>
-                    <div className="relative">
-                      <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                      <input
-                        type="text"
-                        required
-                        value={leadName}
-                        onChange={(e) => setLeadName(e.target.value)}
-                        placeholder="e.g. Tony Stark"
-                        className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-50 border border-slate-300 text-slate-900 text-sm focus:border-red-600 focus:bg-white focus:outline-none transition-all shadow-xs"
-                      />
-                    </div>
-                  </div>
+                {/* Input 2: Phone number or email */}
+                <div>
+                  <input
+                    type="email"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Phone number or email ( Active email )"
+                    className="w-full neu-inset rounded-full h-12 px-6 text-white placeholder:text-slate-500 text-xs sm:text-sm focus:outline-none"
+                  />
+                </div>
 
-                  <div>
-                    <label className="block text-xs font-mono-code text-slate-600 mb-1 font-semibold">
-                      Email Address *
-                    </label>
-                    <div className="relative">
-                      <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                      <input
-                        type="email"
-                        required
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        placeholder="tony@starkindustries.org"
-                        className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-50 border border-slate-300 text-slate-900 text-sm focus:border-red-600 focus:bg-white focus:outline-none transition-all shadow-xs"
-                      />
-                    </div>
-                  </div>
+                {/* Input 3: WhatsApp Contact */}
+                <div>
+                  <input
+                    type="tel"
+                    required
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    placeholder="WhatsApp / Phone ( Active number )"
+                    className="w-full neu-inset rounded-full h-12 px-6 text-white placeholder:text-slate-500 text-xs sm:text-sm focus:outline-none"
+                  />
+                </div>
 
-                  <div>
-                    <label className="block text-xs font-mono-code text-slate-600 mb-1 font-semibold">
-                      WhatsApp / Phone *
-                    </label>
-                    <div className="relative">
-                      <Phone className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                      <input
-                        type="tel"
-                        required
-                        value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
-                        placeholder="+91 98765 43210"
-                        className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-50 border border-slate-300 text-slate-900 text-sm focus:border-red-600 focus:bg-white focus:outline-none transition-all shadow-xs"
-                      />
-                    </div>
-                  </div>
+                {/* Input 4: College or University */}
+                <div>
+                  <input
+                    type="text"
+                    required
+                    value={collegeName}
+                    onChange={(e) => setCollegeName(e.target.value)}
+                    placeholder="College or University ( e.g. BMSIT Bengaluru )"
+                    className="w-full neu-inset rounded-full h-12 px-6 text-white placeholder:text-slate-500 text-xs sm:text-sm focus:outline-none"
+                  />
+                </div>
 
-                  <div>
-                    <label className="block text-xs font-mono-code text-slate-600 mb-1 font-semibold">
-                      Year of Study *
-                    </label>
+                {/* Input 5: Department & Year of Study */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <input
+                    type="text"
+                    required
+                    value={department}
+                    onChange={(e) => setDepartment(e.target.value)}
+                    placeholder="Department ( CS, IS, AI, etc. )"
+                    className="w-full neu-inset rounded-full h-12 px-5 text-white placeholder:text-slate-500 text-xs sm:text-sm focus:outline-none"
+                  />
+
+                  <div className="relative">
                     <select
                       value={yearOfStudy}
                       onChange={(e) => setYearOfStudy(e.target.value)}
-                      className="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-300 text-slate-900 text-sm focus:border-red-600 focus:bg-white focus:outline-none transition-all shadow-xs"
+                      className="w-full neu-inset rounded-full h-12 px-5 text-slate-300 text-xs sm:text-sm focus:outline-none cursor-pointer appearance-none bg-[#161719]"
                     >
-                      <option value="1st Year">1st Year UG</option>
-                      <option value="2nd Year">2nd Year UG</option>
-                      <option value="3rd Year">3rd Year UG</option>
-                      <option value="4th Year">4th Year UG</option>
-                      <option value="Postgraduate">Postgraduate / MCA / MSc</option>
+                      <option value="1st Year" className="bg-[#161719] text-white">1st Year UG</option>
+                      <option value="2nd Year" className="bg-[#161719] text-white">2nd Year UG</option>
+                      <option value="3rd Year" className="bg-[#161719] text-white">3rd Year UG</option>
+                      <option value="4th Year" className="bg-[#161719] text-white">4th Year UG</option>
+                      <option value="Postgraduate" className="bg-[#161719] text-white">Postgraduate / MCA</option>
                     </select>
-                  </div>
-                </div>
-              </div>
-
-              {/* Step 3: Institution & Squad Details */}
-              <div>
-                <label className="block text-xs font-mono-code text-red-600 uppercase tracking-wider mb-4 font-bold">
-                  3. INSTITUTION &amp; SQUAD IDENTIFIER
-                </label>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-mono-code text-slate-600 mb-1 font-semibold">
-                      College / University Name *
-                    </label>
-                    <div className="relative">
-                      <School className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                      <input
-                        type="text"
-                        required
-                        value={collegeName}
-                        onChange={(e) => setCollegeName(e.target.value)}
-                        placeholder="e.g. BMSIT & Management"
-                        className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-50 border border-slate-300 text-slate-900 text-sm focus:border-red-600 focus:bg-white focus:outline-none transition-all shadow-xs"
-                      />
+                    <div className="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400 text-xs">
+                      ▼
                     </div>
                   </div>
+                </div>
 
-                  <div>
-                    <label className="block text-xs font-mono-code text-slate-600 mb-1 font-semibold">
-                      Department / Branch *
-                    </label>
+                {/* Team / Squad codename if team event */}
+                {currentEvent.teamSize.max > 1 && (
+                  <div className="space-y-3 pt-1">
                     <input
                       type="text"
-                      required
-                      value={department}
-                      onChange={(e) => setDepartment(e.target.value)}
-                      placeholder="e.g. Computer Science / BCA / IT"
-                      className="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-300 text-slate-900 text-sm focus:border-red-600 focus:bg-white focus:outline-none transition-all shadow-xs"
+                      value={teamName}
+                      onChange={(e) => setTeamName(e.target.value)}
+                      placeholder="Team / Squad codename ( Optional )"
+                      className="w-full neu-inset rounded-full h-12 px-6 text-white placeholder:text-slate-500 text-xs sm:text-sm focus:outline-none"
                     />
-                  </div>
 
-                  {currentEvent.teamSize.max > 1 && (
-                    <div className="sm:col-span-2">
-                      <label className="block text-xs font-mono-code text-slate-600 mb-1 font-semibold">
-                        Team Name (Optional)
-                      </label>
-                      <input
-                        type="text"
-                        value={teamName}
-                        onChange={(e) => setTeamName(e.target.value)}
-                        placeholder="e.g. Avengers Initiative / Stark Coders"
-                        className="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-300 text-slate-900 text-sm focus:border-red-600 focus:bg-white focus:outline-none transition-all shadow-xs"
-                      />
-                    </div>
-                  )}
-                </div>
-              </div>
+                    {members.map((member, idx) => (
+                      <div key={idx} className="flex items-center gap-2">
+                        <input
+                          type="text"
+                          required
+                          value={member}
+                          onChange={(e) => handleMemberChange(idx, e.target.value)}
+                          placeholder={`Squad Ally #${idx + 2} Full name`}
+                          className="flex-1 neu-inset rounded-full h-11 px-5 text-white placeholder:text-slate-500 text-xs focus:outline-none"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => removeMemberField(idx)}
+                          className="neu-btn px-3 py-2 rounded-full text-slate-400 hover:text-red-400 text-xs cursor-pointer"
+                        >
+                          Remove
+                        </button>
+                      </div>
+                    ))}
 
-              {/* Dynamic Additional Team Members */}
-              {maxAdditionalMembers > 0 && (
-                <div className="p-4 rounded-xl bg-slate-50 border border-slate-200">
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="font-mono-code text-xs text-slate-700 font-bold uppercase">
-                      ADDITIONAL TEAM MEMBERS ({members.length}/{maxAdditionalMembers})
-                    </span>
                     {members.length < maxAdditionalMembers && (
                       <button
                         type="button"
                         onClick={addMemberField}
-                        className="text-xs font-tech font-bold text-red-600 hover:text-red-700 transition-colors cursor-pointer"
+                        className="w-full neu-btn rounded-full py-2.5 text-center text-xs font-mono-code font-bold text-amber-400 uppercase tracking-wider cursor-pointer"
                       >
-                        + ADD TEAM MEMBER
+                        + ADD SQUAD ALLY ({members.length + 1}/{maxAdditionalMembers})
                       </button>
                     )}
                   </div>
+                )}
 
-                  {members.length === 0 ? (
-                    <p className="text-xs text-slate-500 font-mono-code">
-                      No additional team members added. Click &ldquo;+ Add Team Member&rdquo; if competing as a squad.
-                    </p>
-                  ) : (
-                    <div className="space-y-2">
-                      {members.map((member, index) => (
-                        <div key={index} className="flex items-center gap-2">
-                          <input
-                            type="text"
-                            required
-                            value={member}
-                            onChange={(e) =>
-                              handleMemberChange(index, e.target.value)
-                            }
-                            placeholder={`Team Member ${index + 2} Full Name`}
-                            className="flex-1 px-3.5 py-2 rounded-xl bg-white border border-slate-300 text-slate-900 text-xs sm:text-sm focus:border-red-600 focus:outline-none shadow-xs"
-                          />
-                          <button
-                            type="button"
-                            onClick={() => removeMemberField(index)}
-                            className="p-2 rounded-lg bg-slate-200 hover:bg-red-600 hover:text-white text-slate-700 text-xs transition-colors cursor-pointer"
-                          >
-                            Remove
-                          </button>
-                        </div>
-                      ))}
-                    </div>
-                  )}
+                {/* Terms Agreement Checkbox */}
+                <div className="pt-2 px-2">
+                  <label className="flex items-start gap-2.5 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      required
+                      checked={agreedToTerms}
+                      onChange={(e) => setAgreedToTerms(e.target.checked)}
+                      className="mt-0.5 w-4 h-4 rounded border-slate-700 text-amber-500 focus:ring-amber-400 bg-[#161719] cursor-pointer"
+                    />
+                    <span className="text-[11px] font-sans text-slate-400 leading-tight select-none">
+                      I agree to TECHNIX 8.0 rules and verify that college ID will be presented at BMSIT Yelahanka.
+                    </span>
+                  </label>
                 </div>
-              )}
 
-              {/* Terms and MCU Code of Conduct */}
-              <div className="space-y-3 pt-2">
-                <label className="flex items-start gap-3 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    required
-                    checked={agreedToTerms}
-                    onChange={(e) => setAgreedToTerms(e.target.checked)}
-                    className="mt-1 w-4 h-4 rounded border-slate-300 text-red-600 focus:ring-red-500 cursor-pointer"
-                  />
-                  <span className="text-xs text-slate-600 leading-relaxed font-sans">
-                    I agree to abide by the TECHNIX 8.0 Fest Code of Conduct, confirm that all information provided is accurate, and understand that physical college ID cards must be presented at the check-in desk at BMSIT Yelahanka Bengaluru.
+                {/* Primary Neumorphic Button: Join kuy -> CONFIRM REGISTRATION */}
+                <div className="pt-2">
+                  <button
+                    type="submit"
+                    disabled={isSubmitting || !agreedToTerms}
+                    className="w-full neu-btn rounded-full py-3.5 sm:py-4 text-center cursor-pointer transition-all disabled:opacity-50 disabled:cursor-not-allowed group"
+                  >
+                    <span className="font-heading font-black text-sm sm:text-base text-[#F5B800] uppercase tracking-wider flex items-center justify-center gap-2">
+                      {isSubmitting ? (
+                        <>
+                          <span className="w-4 h-4 border-2 border-[#F5B800] border-t-transparent rounded-full animate-spin" />
+                          COMMISSIONING PASS...
+                        </>
+                      ) : (
+                        <>
+                          <Zap className="w-4 h-4 text-[#F5B800]" />
+                          CONFIRM REGISTRATION
+                        </>
+                      )}
+                    </span>
+                  </button>
+                </div>
+
+                {/* Divider (Reference Style: '——— or ———') */}
+                <div className="flex items-center gap-4 py-1">
+                  <div className="flex-1 h-[1px] bg-black/40" />
+                  <span className="text-xs font-mono-code text-slate-500 uppercase tracking-widest">
+                    or
                   </span>
-                </label>
-              </div>
+                  <div className="flex-1 h-[1px] bg-black/40" />
+                </div>
 
-              {/* Submit Button */}
-              <div className="pt-2">
-                <button
-                  type="submit"
-                  disabled={isSubmitting || !agreedToTerms}
-                  className="w-full inline-flex items-center justify-center gap-2 py-4 rounded-xl text-white font-heading text-sm sm:text-base font-extrabold tracking-wider shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed hover:scale-[1.01] active:scale-[0.99] cursor-pointer bg-gradient-to-r from-red-600 via-rose-600 to-red-700 hover:from-red-500 hover:to-rose-500 shadow-red-950/20"
-                >
-                  {isSubmitting ? (
-                    <>
-                      <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                      TRANSMITTING PROTOCOL CLEARANCE...
-                    </>
-                  ) : (
-                    <>
-                      <Zap className="w-5 h-5 text-amber-300" />
-                      CONFIRM REGISTRATION FOR {currentEvent.title.split("—")[0].trim().toUpperCase()}
-                    </>
-                  )}
-                </button>
-              </div>
-            </form>
+                {/* Secondary Neumorphic Button: Facebook Log In -> BROWSE ALL PROTOCOLS */}
+                <div>
+                  <a
+                    href="/events"
+                    className="w-full neu-btn rounded-full py-3 px-6 text-center text-xs font-mono-code font-bold text-slate-300 hover:text-white uppercase tracking-wider cursor-pointer flex items-center justify-center gap-2"
+                  >
+                    <Sparkles className="w-3.5 h-3.5 text-[#F5B800]" />
+                    <span>BROWSE ALL PROTOCOLS IN EVENTS SHOWROOM</span>
+                  </a>
+                </div>
+
+                {/* Footnote (Reference Style: 'Mau ngucapin ? bisa banget...') */}
+                <div className="pt-3 pb-1 text-center text-[10px] sm:text-[11px] font-sans text-slate-400 leading-relaxed">
+                  <p>
+                    Need fest clearance? Passes are strictly verified at BMSIT Yelahanka gate entry.{" "}
+                    <span className="text-[#F5B800] font-semibold">
+                      Ensure your institution ID card is carried throughout November 18 – 19, 2026.
+                    </span>
+                  </p>
+                  <p className="mt-3 font-mono-code text-[10px] text-slate-500">
+                    @technix8.0_bmsit
+                  </p>
+                </div>
+              </form>
+            </div>
           )}
         </div>
       </div>
