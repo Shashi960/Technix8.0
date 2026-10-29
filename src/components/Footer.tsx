@@ -44,7 +44,7 @@ export default function Footer({ onOpenEventDetails }: FooterProps) {
             </p>
 
             <div className="pt-2 text-xs font-mono-code text-pink-400">
-              <span>VENUE // {festConfig.institution.campus}, {festConfig.institution.city}</span>
+              <span>VENUE // {festConfig.institution.campus}</span>
             </div>
           </div>
 

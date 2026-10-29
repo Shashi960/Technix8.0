@@ -43,7 +43,7 @@ export default function ContactSection() {
           <div className="space-y-6">
             <div className="p-8 rounded-3xl bg-slate-950/90 border border-slate-800 shadow-xl space-y-6">
               <h3 className="font-heading text-xl font-bold text-white uppercase tracking-wide">
-                AVENGERS BASE COMMAND [PLACEHOLDER]
+                AVENGERS BASE COMMAND
               </h3>
 
               <div className="space-y-4 text-sm font-sans">
@@ -106,7 +106,7 @@ export default function ContactSection() {
               <div className="relative z-10 flex flex-col items-center">
                 <Navigation className="w-8 h-8 text-cyan-400 animate-pulse mb-2" />
                 <span className="font-heading text-sm font-bold text-white">
-                  CAMPUS SECTOR GRID: BENGALURU
+                  CAMPUS SECTOR GRID: BMSIT YELAHANKA BENGALURU
                 </span>
                 <span className="font-mono-code text-xs text-slate-400 mt-1">
                   GPS: {festConfig.institution.coordinates}

@@ -30,7 +30,7 @@ export default function PassesPage() {
     <div className="min-h-screen bg-[#04060C] text-slate-100 flex flex-col selection:bg-pink-600 selection:text-white">
       <Navbar />
 
-      <main className="flex-1 pt-20">
+      <main className="flex-1 pt-16">
         <Suspense
           fallback={
             <div className="py-24 text-center text-slate-400 font-mono-code text-sm">

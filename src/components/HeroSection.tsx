@@ -70,9 +70,12 @@ export default function HeroSection({
           The Convergence Is Here.
         </h2>
 
-        {/* Fest Dates */}
-        <p className="font-mono-code text-xs sm:text-sm tracking-[0.3em] uppercase text-amber-200/90 font-medium mb-5 sm:mb-7 drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)]">
+        {/* Fest Dates & Location */}
+        <p className="font-mono-code text-xs sm:text-sm tracking-[0.3em] uppercase text-amber-200/90 font-medium mb-1.5 drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)]">
           NOVEMBER 18 – 19, 2026
+        </p>
+        <p className="font-mono-code text-[11px] sm:text-xs tracking-[0.22em] uppercase text-slate-300 font-semibold mb-5 sm:mb-7 drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)]">
+          BMSIT, YELAHANKA, BENGALURU
         </p>
 
         {/* Center Status Pill Badge */}

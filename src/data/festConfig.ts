@@ -11,14 +11,14 @@ export const festConfig = {
   eventDate: "2026-11-18T09:00:00+05:30",
   eventDateDisplay: "November 18–19, 2026",
   
-  // Institutional Information (Editable Placeholders)
+  // Institutional Information
   institution: {
-    collegeName: "Department of Computer Applications & Technology",
-    universityName: "National Apex Institute of Science & Technology",
-    campus: "Main Campus, Innovation Enclave",
-    city: "Bengaluru, Karnataka",
-    address: "Tech Knowledge Park Road, Innovation Hub, Bengaluru - 560100",
-    coordinates: "12.9716° N, 77.5946° E",
+    collegeName: "BMS Institute of Technology and Management (BMSIT)",
+    universityName: "BMSIT",
+    campus: "BMSIT, Yelahanka, Bengaluru",
+    city: "Yelahanka, Bengaluru",
+    address: "BMS Institute of Technology & Management, Doddaballapur Main Road, Avalahalli, Yelahanka, Bengaluru, Karnataka 560064",
+    coordinates: "13.1332° N, 77.5678° E",
   },
 
   // Key Fest Stats / Highlights

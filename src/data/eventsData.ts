@@ -24,7 +24,7 @@ export const eventsData: FestEvent[] = [
     },
     registrationFee: "Placeholder (To be finalized by fest committee)",
     venue: "Main Computer Center - Lab 301",
-    scheduleTime: "Day 1 - 10:00 AM to 01:00 PM",
+    scheduleTime: "Updating Soon",
     rounds: [
       {
         roundNumber: 1,
@@ -93,7 +93,7 @@ export const eventsData: FestEvent[] = [
     },
     registrationFee: "Placeholder (To be finalized by fest committee)",
     venue: "S.H.I.E.L.D. Boardroom - Seminar Hall 2",
-    scheduleTime: "Day 1 & Day 2 Multi-Stage",
+    scheduleTime: "Updating Soon",
     rounds: [
       {
         roundNumber: 1,
@@ -162,7 +162,7 @@ export const eventsData: FestEvent[] = [
     },
     registrationFee: "Placeholder (To be finalized by fest committee)",
     venue: "Sanctum Auditorium - Hall A",
-    scheduleTime: "Day 1 - 02:00 PM to 05:00 PM",
+    scheduleTime: "Updating Soon",
     rounds: [
       {
         roundNumber: 1,
@@ -231,7 +231,7 @@ export const eventsData: FestEvent[] = [
     },
     registrationFee: "Placeholder (To be finalized by fest committee)",
     venue: "Media Center - Room 102 & Campus-Wide",
-    scheduleTime: "Day 1 & Day 2 (Submission by Day 2, 03:00 PM)",
+    scheduleTime: "Updating Soon",
     rounds: [
       {
         roundNumber: 1,
@@ -294,7 +294,7 @@ export const eventsData: FestEvent[] = [
     },
     registrationFee: "Placeholder (To be finalized by fest committee)",
     venue: "Central Plaza - Assembly Flagpole",
-    scheduleTime: "Day 2 - 10:00 AM to 01:00 PM",
+    scheduleTime: "Updating Soon",
     rounds: [
       {
         roundNumber: 1,
@@ -363,7 +363,7 @@ export const eventsData: FestEvent[] = [
     },
     registrationFee: "Placeholder (To be finalized by fest committee)",
     venue: "Main Esports Arena - Seminar Hall 1",
-    scheduleTime: "Day 1 & Day 2 (Knockouts to Grand Finals)",
+    scheduleTime: "Updating Soon",
     rounds: [
       {
         roundNumber: 1,
@@ -432,7 +432,7 @@ export const eventsData: FestEvent[] = [
     },
     registrationFee: "Placeholder (To be finalized by fest committee)",
     venue: "Open Air Amphitheatre - Main Festival Stage",
-    scheduleTime: "Day 2 - 04:30 PM Onwards",
+    scheduleTime: "Updating Soon",
     rounds: [
       {
         roundNumber: 1,
@@ -495,7 +495,7 @@ export const eventsData: FestEvent[] = [
     },
     registrationFee: "Placeholder (To be finalized by fest committee)",
     venue: "Design Lab 204 - Computing Wing",
-    scheduleTime: "Day 1 - 01:30 PM to 04:30 PM",
+    scheduleTime: "Updating Soon",
     rounds: [
       {
         roundNumber: 1,
@@ -564,7 +564,7 @@ export const eventsData: FestEvent[] = [
     },
     registrationFee: "Placeholder (To be finalized by fest committee)",
     venue: "Secret Dimensional Arena - Announced on Day 2",
-    scheduleTime: "Day 2 - 02:00 PM to 04:00 PM",
+    scheduleTime: "Updating Soon",
     rounds: [
       {
         roundNumber: 1,

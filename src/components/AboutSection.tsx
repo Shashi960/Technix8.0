@@ -75,7 +75,7 @@ export default function AboutSection() {
           <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 pb-8 border-b border-slate-800/80">
             <div>
               <span className="font-mono-code text-xs text-amber-400 tracking-widest uppercase">
-                HOST INSTITUTION DOSSIER [EDITABLE PLACEHOLDERS]
+                HOST INSTITUTION DOSSIER
               </span>
               <h4 className="font-heading text-2xl sm:text-3xl font-black text-white mt-1">
                 {festConfig.institution.collegeName}
